@@ -33,11 +33,9 @@ public class CallParticipantAdapter extends RecyclerView.Adapter<CallParticipant
     RtcEngine rtcEngine;
     Context context;
     ArrayList<AgoraUser> participants;
-    ArrayList<VideoCanvas> videoCanvasList;
 
     public CallParticipantAdapter(RtcEngine rtcEngine, Context context){
         this.participants=new ArrayList<>();
-        this.videoCanvasList=new ArrayList<>();
         this.rtcEngine = rtcEngine;
         this.context = context;
     }
@@ -73,18 +71,16 @@ public class CallParticipantAdapter extends RecyclerView.Adapter<CallParticipant
             holder.videoParent.setVisibility(View.VISIBLE);
             holder.videoParent.addView(surfaceView);
 
-            videoCanvasList.set(position, new VideoCanvas(surfaceView, VideoCanvas.RENDER_MODE_HIDDEN, participant.getUid()));
+            VideoCanvas videoCanvas=new VideoCanvas(surfaceView, VideoCanvas.RENDER_MODE_HIDDEN, participant.getUid());
 
             if(participant.getMe())
-                rtcEngine.setupLocalVideo(videoCanvasList.get(position));
+                rtcEngine.setupLocalVideo(videoCanvas);
             else
-                rtcEngine.setupRemoteVideo(videoCanvasList.get(position));
+                rtcEngine.setupRemoteVideo(videoCanvas);
 
         }else{
             Log.i("msggg","video disabled");
-            holder.videoParent.removeView(videoCanvasList.get(position).view);
             holder.videoParent.setVisibility(View.GONE);
-
             Glide.with(context).load(R.drawable.room_image_placeholder).into(holder.videoFallback);
         }
 
@@ -156,13 +152,13 @@ public class CallParticipantAdapter extends RecyclerView.Adapter<CallParticipant
         int index=findParticipantByUid(uid);
         if(index==-1) return;
         participants.remove(index);
-        videoCanvasList.remove(index);
+
         notifyItemRemoved(index);
     }
 
     public void addParticipant(AgoraUser agoraUser){
         participants.add(agoraUser);
-        videoCanvasList.add(null);
+
         notifyItemInserted(participants.size()-1);
     }
 
