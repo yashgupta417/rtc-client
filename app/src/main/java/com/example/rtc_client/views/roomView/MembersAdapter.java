@@ -39,7 +39,7 @@ public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.MemberVi
     @Override
     public void onBindViewHolder(@NonNull MemberViewHolder holder, int position) {
         User user=members.get(position);
-        holder.username.setText(user.getUsername());
+        holder.username.setText("@"+user.getUsername());
     }
 
     @Override

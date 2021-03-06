@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/shade9">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="30dp"
+            android:src="@drawable/room_image_placeholder"
+            android:elevation="5dp"
+            android:scaleType="centerCrop"/>
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Room Name"
+            android:textSize="20sp"
+            android:textColor="@color/white"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/image"
+            android:layout_marginTop="10dp"/>
+
+        <RelativeLayout
+            android:paddingVertical="10dp"
+            android:id="@+id/owner_rl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/name"
+            android:layout_marginTop="20dp">
+            <TextView
+                android:id="@+id/owner_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Owner"
+                android:textSize="14sp"
+                android:textColor="@color/shade5"
+                android:layout_marginLeft="15dp"/>
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/owner_image"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/room_image_placeholder"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="15dp"
+                android:layout_below="@+id/owner_text"
+                android:layout_marginTop="10dp"/>
+
+            <TextView
+                android:id="@+id/owner_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/owner_image"
+                android:textColor="@color/white"
+                android:text="i_am_the_owner"
+                android:textSize="16sp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_alignBottom="@id/owner_image"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:paddingVertical="10dp"
+            android:id="@+id/address_rl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/owner_rl"
+            android:layout_marginTop="10dp">
+            <TextView
+                android:id="@+id/address_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Address"
+                android:textSize="14sp"
+                android:textColor="@color/shade5"
+                android:layout_marginLeft="15dp"/>
+
+            <ImageView
+                android:id="@+id/address_copy"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@drawable/ic_baseline_content_copy_100"
+                android:layout_toRightOf="@+id/address"
+                android:layout_marginLeft="15dp"
+                android:layout_below="@+id/address_text"
+                android:layout_marginTop="13dp"/>
+
+
+
+            <TextView
+                android:id="@+id/address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:textColor="@color/white"
+                android:text="#ABC123"
+                android:textSize="18sp"
+                android:layout_marginLeft="15dp"
+                android:layout_below="@id/address_text"
+                android:layout_marginTop="10dp"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:paddingVertical="10dp"
+            android:id="@+id/members_rl"
+            android:layout_below="@id/address_rl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/members_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Members"
+                android:textSize="14sp"
+                android:textColor="@color/shade5"
+                android:layout_marginLeft="15dp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/members_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/members_text"
+                android:layout_marginTop="7dp"
+                tools:listitem="@layout/member_item"/>
+        </RelativeLayout>
+    </RelativeLayout>
+
+
+
+</androidx.core.widget.NestedScrollView>

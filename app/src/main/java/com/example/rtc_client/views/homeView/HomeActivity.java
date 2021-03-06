@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SnapHelper;
 
 import android.content.Intent;
 import android.graphics.Paint;
@@ -72,13 +74,25 @@ public class HomeActivity extends AppCompatActivity {
 
     public void showUserRooms(ArrayList<Room> rooms){
         RecyclerView roomsRecyclerView=findViewById(R.id.rooms_recycler_view);
-        roomsRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.VERTICAL,false));
+
+        //adding snap helper
+        SnapHelper helper = new LinearSnapHelper();
+        helper.attachToRecyclerView(roomsRecyclerView);
+
+        //adding layout manager
+        roomsRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.HORIZONTAL,false));
         roomsRecyclerView.setHasFixedSize(true);
+
 
         RoomsAdapter roomsAdapter=new RoomsAdapter(rooms,getApplicationContext());
         roomsAdapter.setOnItemClickListener(new RoomsAdapter.onItemClickListener() {
             @Override
             public void onItemClick(int position) {
+                /* do nothing */
+            }
+
+            @Override
+            public void onEnterClick(int position) {
                 String address=roomsAdapter.rooms.get(position).getAddress();
                 moveToRoomActivity(address);
             }

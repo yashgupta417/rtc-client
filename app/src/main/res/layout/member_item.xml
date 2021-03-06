@@ -1,32 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="7dp"
+    android:paddingVertical="10dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/member_image_parent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentTop="true"
-        app:cardCornerRadius="10dp">
-        <ImageView
-            android:id="@+id/member_image"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/room_image_placeholder"
-            />
-    </androidx.cardview.widget.CardView>
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/member_image"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:scaleType="centerCrop"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="15dp"
+        android:src="@drawable/room_image_placeholder"
+        />
 
     <TextView
         android:id="@+id/member_name"
-        android:layout_below="@id/member_image_parent"
+        android:layout_toRightOf="@id/member_image"
+        android:text="i_am_a_member"
+        android:layout_marginLeft="15dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/shade6"
-        android:textSize="12sp"/>
+        android:textColor="@color/white"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="10dp"
+        android:textSize="14sp"/>
 
 </RelativeLayout>

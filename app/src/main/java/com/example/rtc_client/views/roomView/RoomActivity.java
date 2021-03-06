@@ -137,9 +137,7 @@ public class RoomActivity extends AppCompatActivity {
         fetchTokenAndJoinChannel();
     }
 
-    RecyclerView membersRecyclerView;
-    MembersAdapter membersAdapter;
-    TextView  addressTextView;
+
     RelativeLayout roomDetailsParent;
     ImageView toggleDetailsImageView;
     ImageView audioButton, videoButton;
@@ -154,27 +152,12 @@ public class RoomActivity extends AppCompatActivity {
         loader=findViewById(R.id.loader);
         loader.setVisibility(View.VISIBLE);
 
-        //setting up members recycler view
-        membersRecyclerView=findViewById(R.id.members_recycler_view);
-        membersRecyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
-        membersRecyclerView.setHasFixedSize(true);
-
-        //adding adapter
-        membersAdapter=new MembersAdapter((ArrayList<User>) room.getMembers(),this);
-        membersRecyclerView.setAdapter(membersAdapter);
 
         //setting room name
         roomNameHeaderTextView=findViewById(R.id.header_room_name);
         roomNameHeaderTextView.setText(room.getName());
 
 
-        //setting address
-        addressTextView=findViewById(R.id.address_textView);
-        addressTextView.setText(room.getAddress());
-
-        //initiating other views
-        roomDetailsParent=findViewById(R.id.room_details_rl);
-        toggleDetailsImageView=findViewById(R.id.up_down_arrow);
 
         audioButton=findViewById(R.id.audio_button);
         videoButton=findViewById(R.id.video_button);
@@ -368,18 +351,8 @@ public class RoomActivity extends AppCompatActivity {
         participantAdapter.removeParticipant(uid);
     }
 
-    public boolean detailsExpanded=false;
-    public void toggleDetails(View view){
-        if(detailsExpanded){
-            roomDetailsParent.setVisibility(View.GONE);
-            toggleDetailsImageView.setImageDrawable(this.getResources().getDrawable(R.drawable.ic_baseline_expand_more_100));
-            detailsExpanded=false;
-        }else{
-            roomDetailsParent.setVisibility(View.VISIBLE);
-            toggleDetailsImageView.setImageDrawable(this.getResources().getDrawable(R.drawable.ic_baseline_expand_less_100));
-            detailsExpanded=true;
-        }
-    }
+
+
 
     //handle exit
     @Override
@@ -443,21 +416,20 @@ public class RoomActivity extends AppCompatActivity {
 
 
 
-    //copy room address
-    public void copyAddressToClipboard(View view){
-        //getting room address
-        String label="room address";
-        String address=room.getAddress();
 
-        //copying address to clipboard
-        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-        ClipData clip = ClipData.newPlainText(label, address);
-        clipboard.setPrimaryClip(clip);
 
-        //showing toast
-        Toast.makeText(this, "Copied!", Toast.LENGTH_SHORT).show();
+    public void openRoomDetailsSheet(View view){
+        RoomDetailsBottomSheet bottomSheet=new RoomDetailsBottomSheet(room);
+        bottomSheet.show(getSupportFragmentManager(),"roomDetails");
     }
 
+    public void openChatBottomSheet(View view){
+        ChatBottomSheet bottomSheet=new ChatBottomSheet();
+        bottomSheet.show(getSupportFragmentManager(),"chat");
+    }
+    //update home screen
+
+    //update room screen
     //post photos on server for room and user
 
     //allow room and user editing

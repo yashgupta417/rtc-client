@@ -1,44 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="10dp"
-    app:cardElevation="5dp"
+    app:cardElevation="7dp"
+    android:layout_marginHorizontal="10dp"
     android:layout_marginBottom="15dp"
     app:cardBackgroundColor="@color/shade9">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
         <ImageView
             android:id="@+id/room_image"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="170dp"
+            android:layout_height="170dp"
             android:src="@drawable/room_image_placeholder"
             android:scaleType="centerCrop"
-            android:alpha="0.2"
-            android:layout_alignParentTop="true"/>
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="40dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/room_name"
             android:text="Room Name"
             android:textColor="@color/white"
-            android:textSize="18sp"
+            android:textSize="22sp"
             android:textStyle="bold"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="10dp"
-            android:layout_toRightOf="@id/room_image"/>
+            android:layout_below="@id/room_image"
+            android:layout_marginTop="20dp"
+            android:layout_centerHorizontal="true"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/member_count"
-            android:layout_toRightOf="@id/room_image"
             android:text="2 members"
             android:textColor="@color/white"
             android:layout_below="@id/room_name"
             android:layout_marginTop="5dp"
-            android:textSize="16sp"
-            android:layout_marginLeft="15sp"/>
+            android:layout_centerHorizontal="true"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/enter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/member_count"
+            android:layout_marginTop="150dp"
+            android:background="@drawable/home_button_enter"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:text="Enter"
+            android:paddingVertical="15dp"
+            android:paddingHorizontal="40dp"
+            android:elevation="2dp"/>
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

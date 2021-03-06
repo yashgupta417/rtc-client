@@ -60,6 +60,7 @@ public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.RoomViewHold
     private onItemClickListener listener;
     public interface onItemClickListener{
         void onItemClick(int position);
+        void onEnterClick(int position);
     }
 
     public void setOnItemClickListener(onItemClickListener listener){
@@ -68,12 +69,14 @@ public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.RoomViewHold
     public static class RoomViewHolder extends RecyclerView.ViewHolder{
         ImageView roomImage;
         TextView roomName, roomMembersCount;
+        TextView enter;
         public RoomViewHolder(@NonNull View itemView,final onItemClickListener listener) {
             super(itemView);
 
             roomImage=itemView.findViewById(R.id.room_image);
             roomName=itemView.findViewById(R.id.room_name);
             roomMembersCount=itemView.findViewById(R.id.member_count);
+            enter=itemView.findViewById(R.id.enter);
             itemView.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {
@@ -85,6 +88,20 @@ public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.RoomViewHold
                     }
                 }
             });
+
+            enter.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(listener!=null){
+                        int position=getAdapterPosition();
+                        if(position!=RecyclerView.NO_POSITION){
+                            listener.onEnterClick(position);
+                        }
+                    }
+                }
+            });
+
+
         }
     }
 
