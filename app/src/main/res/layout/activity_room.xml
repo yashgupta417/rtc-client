@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".views.roomView.RoomActivity"
+    android:background="@color/shade8">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/shade9"
+        app:contentInsetEnd="0dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetRight="0dp"
+        app:contentInsetStart="0dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="27dp"
+                android:layout_height="27dp"
+                android:onClick="exitRoom"
+                android:src="@drawable/ic_baseline_exit_to_app_100"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="10dp"/>
+            <TextView
+                android:id="@+id/header_room_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Room name"
+                android:textStyle="bold"
+                android:textColor="@color/shade3"
+                android:textSize="20sp"
+                android:layout_centerInParent="true" />
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_baseline_chat_bubble_outline_100"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/up_down_arrow"
+                android:layout_marginRight="15dp"/>
+
+            <ImageView
+                android:id="@+id/up_down_arrow"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:onClick="toggleDetails"
+                android:src="@drawable/ic_baseline_expand_more_100"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"/>
+
+
+        </RelativeLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+    <RelativeLayout
+        android:id="@+id/room_details_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/shade9"
+        android:visibility="gone"
+        tools:visibility="visible"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0">
+        <RelativeLayout
+            android:id="@+id/head_details_rl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <androidx.cardview.widget.CardView
+                android:id="@+id/room_details_image_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                app:cardCornerRadius="5dp"
+                app:cardMaxElevation="5dp">
+                <ImageView
+                    android:id="@+id/room_details_image"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/room_image_placeholder" />
+            </androidx.cardview.widget.CardView>
+
+            <ImageView
+                android:layout_width="23dp"
+                android:layout_height="23dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="15dp"
+                android:src="@drawable/ic_baseline_edit_100"
+                android:layout_alignBottom="@id/room_details_image_parent"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/shade6"
+                android:layout_below="@+id/room_details_image_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="15dp"/>
+        </RelativeLayout>
+
+
+        <LinearLayout
+            android:id="@+id/members_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_below="@id/head_details_rl">
+
+            <TextView
+                android:id="@+id/member_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Members"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/white"
+                android:textSize="12sp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_marginLeft="3dp"
+                android:layout_marginTop="5dp"
+                android:id="@+id/members_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:layout_height="80dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/shade6"
+                android:layout_below="@+id/members_recycler_view"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="10dp"/>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/address_rl"
+            android:layout_below="@id/members_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="20dp">
+
+            <TextView
+                android:id="@+id/address_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Room Address"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/white"
+                android:textSize="12sp"/>
+
+
+            <TextView
+                android:id="@+id/address_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/address_header"
+                android:textColor="@color/shade6"
+                android:layout_marginTop="2dp"
+                android:layout_marginLeft="10dp"
+                android:text="F84GH6"
+                android:textSize="16sp"
+                android:letterSpacing="0.2"/>
+
+            <ImageView
+                android:onClick="copyAddressToClipboard"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_baseline_content_copy_100"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="20dp"/>
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/participants_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/room_details_rl"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0"
+        />
+
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/loader"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/load1"
+        android:visibility="gone"
+        tools:visibility="visible"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.5"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="1"
+            android:orientation="horizontal"
+            android:layout_marginBottom="35dp"
+            android:layout_marginHorizontal="60dp"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/audio_button"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:onClick="toggleAudio"
+                android:src="@drawable/room_actions_mic_on"/>
+
+            <ImageView
+                android:id="@+id/video_button"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:onClick="toggleVideo"
+                android:src="@drawable/room_actions_video_on"
+                android:layout_marginHorizontal="25dp"/>
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:onClick="switchCamera"
+                android:src="@drawable/room_actions_flip_camera"/>
+        </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/shade9"
+    tools:context=".views.loginSignupView.LoginSignupActivity">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.2">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Black Lobby"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textAllCaps="true"
+            android:letterSpacing="0.4"
+            android:textColor="@color/shade3"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginHorizontal="40dp"
+        app:layout_constraintVertical_bias="0.8"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+        <LinearLayout
+            android:id="@+id/form_head"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="10">
+
+            <View
+                android:layout_width="30dp"
+                android:layout_height="0.5dp"
+                android:background="@color/shade2"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="4"/>
+
+            <TextView
+                android:id="@+id/form_head_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/shade2"
+                android:layout_weight="2"
+                android:textSize="16dp"
+                android:gravity="center_horizontal"
+                android:text="SIGN UP"/>
+
+            <View
+                android:layout_width="30dp"
+                android:layout_height="0.5dp"
+                android:layout_weight="4"
+                android:layout_gravity="center_vertical"
+                android:background="@color/shade2"/>
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:textColor="@color/white"
+            android:hint="name"
+            android:textSize="14sp"
+            android:textColorHint="@color/shade6"
+            android:background="@drawable/loginsignup_editext_form"
+            android:layout_marginTop="20dp" />
+
+        <EditText
+            android:id="@+id/username"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:textColor="@color/white"
+            android:hint="username"
+            android:textSize="14sp"
+            android:textColorHint="@color/shade6"
+            android:background="@drawable/loginsignup_editext_form"
+            android:layout_marginTop="20dp" />
+
+
+        <EditText
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:hint="email"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:textColorHint="@color/shade6"
+            android:background="@drawable/loginsignup_editext_form"
+            android:layout_marginTop="20dp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:hintEnabled="false"
+            app:passwordToggleEnabled="true">
+            <EditText
+                android:id="@+id/password"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:hint="password"
+                android:inputType="textPassword"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:textColorHint="@color/shade6"
+                android:background="@drawable/loginsignup_editext_form"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <Button
+            android:id="@+id/submit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sign up"
+            android:onClick="submit"
+            android:textColor="@color/white"
+            android:background="@drawable/loginsignup_button_signup"
+            android:layout_marginTop="20dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginHorizontal="5dp"
+            android:background="@color/shade6"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="20dp"/>
+
+        <Button
+            android:id="@+id/alternate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Already have a account? Login."
+            android:textColor="@color/white"
+            android:textAllCaps="false"
+            android:background="@drawable/loginsignup_button_alternate"
+            android:layout_marginTop="20dp"/>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

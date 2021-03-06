@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/room_participant_item_background"
+    android:id="@+id/parent"
+    android:layout_marginHorizontal="20dp"
+    android:elevation="4dp"
+    android:layout_marginVertical="20dp">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/videoFallback"
+        android:scaleType="centerCrop"
+        android:layout_width="70dp"
+        android:layout_height="200dp"
+        android:paddingVertical="62dp"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/room_image_placeholder"
+        android:layout_centerHorizontal="true"/>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_alignParentTop="true"
+        android:id="@+id/video_parent"
+        app:cardCornerRadius="10dp">
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textColor="@color/shade3"
+        android:text="username"
+        android:layout_marginVertical="5dp"
+        android:id="@+id/username"
+        android:layout_below="@id/videoFallback"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="10dp"/>
+
+    <ImageView
+        android:id="@+id/mic"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/ic_baseline_mic_50"
+        android:layout_below="@+id/videoFallback"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="6dp"
+        android:layout_marginVertical="5dp"/>
+</RelativeLayout>

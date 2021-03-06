@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/shade8"
+    android:paddingBottom="20dp"
+    tools:context=".views.homeView.CreateRoomBottomSheet">
+    <TextView
+        android:id="@+id/header_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Join Room"
+        android:textColor="@color/white"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:textSize="20sp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/header_text">
+
+
+        <EditText
+            android:id="@+id/room_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Room address eg:(AX45D3)"
+            android:background="@drawable/join_room_edittext_name"
+            android:textColor="@color/white"
+            android:textColorHint="@color/shade6"/>
+
+        <Button
+            android:id="@+id/join_room_button"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="Join Room"
+            android:textSize="18sp"
+            android:textAllCaps="false"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/join_room_button"
+            android:textColor="@color/white"/>
+    </LinearLayout>
+
+</RelativeLayout>

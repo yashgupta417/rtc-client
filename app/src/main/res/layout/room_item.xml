@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="5dp"
+    android:layout_marginBottom="15dp"
+    app:cardBackgroundColor="@color/shade9">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/room_image"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/room_image_placeholder"
+            android:scaleType="centerCrop"
+            android:alpha="0.2"
+            android:layout_alignParentTop="true"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/room_name"
+            android:text="Room Name"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@id/room_image"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/member_count"
+            android:layout_toRightOf="@id/room_image"
+            android:text="2 members"
+            android:textColor="@color/white"
+            android:layout_below="@id/room_name"
+            android:layout_marginTop="5dp"
+            android:textSize="16sp"
+            android:layout_marginLeft="15sp"/>
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>
