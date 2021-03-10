@@ -1,11 +1,13 @@
 package com.example.rtc_client.views.homeView;
 
 import android.content.Context;
+import android.graphics.drawable.GradientDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.rtc_client.R;
 import com.example.rtc_client.data.models.Room;
+import com.example.rtc_client.utils.Utils;
 
 import java.util.ArrayList;
 
@@ -33,12 +36,23 @@ public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.RoomViewHold
         return myViewHolder;
     }
 
+
+
     @Override
     public void onBindViewHolder(@NonNull RoomViewHolder holder, int position) {
         Room room=rooms.get(position);
 
         holder.roomName.setText(room.getName());
         holder.roomMembersCount.setText(Integer.toString(room.getMembersCount())+" members");
+
+
+        int[] colours=Utils.getGradientColours();
+        Log.i("msg",Integer.toString(colours[0]));
+        //setting gradient background
+        GradientDrawable gradientDrawable=new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,colours );
+        //gradientDrawable.setShape(GradientDrawable.RECTANGLE);
+        gradientDrawable.setCornerRadius(5f);
+        holder.parent.setBackground(gradientDrawable);
     }
 
     @Override
@@ -60,7 +74,6 @@ public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.RoomViewHold
     private onItemClickListener listener;
     public interface onItemClickListener{
         void onItemClick(int position);
-        void onEnterClick(int position);
     }
 
     public void setOnItemClickListener(onItemClickListener listener){
@@ -69,14 +82,15 @@ public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.RoomViewHold
     public static class RoomViewHolder extends RecyclerView.ViewHolder{
         ImageView roomImage;
         TextView roomName, roomMembersCount;
-        TextView enter;
+        RelativeLayout parent;
         public RoomViewHolder(@NonNull View itemView,final onItemClickListener listener) {
             super(itemView);
 
             roomImage=itemView.findViewById(R.id.room_image);
             roomName=itemView.findViewById(R.id.room_name);
             roomMembersCount=itemView.findViewById(R.id.member_count);
-            enter=itemView.findViewById(R.id.enter);
+            parent=itemView.findViewById(R.id.parent);
+
             itemView.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {
@@ -89,17 +103,6 @@ public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.RoomViewHold
                 }
             });
 
-            enter.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(listener!=null){
-                        int position=getAdapterPosition();
-                        if(position!=RecyclerView.NO_POSITION){
-                            listener.onEnterClick(position);
-                        }
-                    }
-                }
-            });
 
 
         }

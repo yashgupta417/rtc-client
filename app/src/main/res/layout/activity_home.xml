@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/shade8"
+    android:background="@color/black"
     tools:context=".views.homeView.HomeActivity">
 
     <androidx.appcompat.widget.Toolbar
@@ -93,8 +93,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         tools:listitem="@layout/room_item"
-        android:layout_marginTop="20dp"
-        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

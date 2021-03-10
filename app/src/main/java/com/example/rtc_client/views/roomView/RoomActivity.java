@@ -412,12 +412,6 @@ public class RoomActivity extends AppCompatActivity {
         participantAdapter.onUserVideoStateChanged(uid,videoOn);
     }
 
-
-
-
-
-
-
     public void openRoomDetailsSheet(View view){
         RoomDetailsBottomSheet bottomSheet=new RoomDetailsBottomSheet(room);
         bottomSheet.show(getSupportFragmentManager(),"roomDetails");
@@ -427,12 +421,4 @@ public class RoomActivity extends AppCompatActivity {
         ChatBottomSheet bottomSheet=new ChatBottomSheet();
         bottomSheet.show(getSupportFragmentManager(),"chat");
     }
-    //update home screen
-
-    //update room screen
-    //post photos on server for room and user
-
-    //allow room and user editing
-
-    //implement chat
 }

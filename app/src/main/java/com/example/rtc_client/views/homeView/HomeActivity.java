@@ -45,6 +45,7 @@ public class HomeActivity extends AppCompatActivity {
         viewModel= ViewModelProviders.of(this).get(HomeViewModel.class);
 
         fetchAndShowUserRooms();
+
     }
 
     public void moveToProfileScreen(View view){
@@ -75,12 +76,8 @@ public class HomeActivity extends AppCompatActivity {
     public void showUserRooms(ArrayList<Room> rooms){
         RecyclerView roomsRecyclerView=findViewById(R.id.rooms_recycler_view);
 
-        //adding snap helper
-        SnapHelper helper = new LinearSnapHelper();
-        helper.attachToRecyclerView(roomsRecyclerView);
-
         //adding layout manager
-        roomsRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.HORIZONTAL,false));
+        roomsRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.VERTICAL,false));
         roomsRecyclerView.setHasFixedSize(true);
 
 
@@ -88,11 +85,6 @@ public class HomeActivity extends AppCompatActivity {
         roomsAdapter.setOnItemClickListener(new RoomsAdapter.onItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                /* do nothing */
-            }
-
-            @Override
-            public void onEnterClick(int position) {
                 String address=roomsAdapter.rooms.get(position).getAddress();
                 moveToRoomActivity(address);
             }
