@@ -22,10 +22,17 @@ import java.util.ArrayList;
 public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.RoomViewHolder> {
     Context context;
     ArrayList<Room> rooms;
+//    ArrayList<int[]> colours;
 
     public RoomsAdapter(ArrayList<Room> rooms,Context context){
+
         this.context=context;
         this.rooms=rooms;
+
+//        colours=new ArrayList<>();
+//        for(int i=0;i<this.rooms.size();i++){
+//            colours.add(Utils.getGradientColours());
+//        }
     }
 
     @NonNull
@@ -46,13 +53,10 @@ public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.RoomViewHold
         holder.roomMembersCount.setText(Integer.toString(room.getMembersCount())+" members");
 
 
-        int[] colours=Utils.getGradientColours();
-        Log.i("msg",Integer.toString(colours[0]));
         //setting gradient background
-        GradientDrawable gradientDrawable=new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,colours );
-        //gradientDrawable.setShape(GradientDrawable.RECTANGLE);
-        gradientDrawable.setCornerRadius(5f);
-        holder.parent.setBackground(gradientDrawable);
+//        GradientDrawable gradientDrawable=new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,colours.get(position));
+//        gradientDrawable.setCornerRadius(5f);
+//        holder.parent.setBackground(gradientDrawable);
     }
 
     @Override
@@ -89,7 +93,7 @@ public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.RoomViewHold
             roomImage=itemView.findViewById(R.id.room_image);
             roomName=itemView.findViewById(R.id.room_name);
             roomMembersCount=itemView.findViewById(R.id.member_count);
-            parent=itemView.findViewById(R.id.parent);
+            //parent=itemView.findViewById(R.id.parent);
 
             itemView.setOnClickListener(new View.OnClickListener(){
                 @Override

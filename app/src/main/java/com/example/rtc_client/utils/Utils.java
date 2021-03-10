@@ -13,6 +13,8 @@ import android.widget.Toast;
 
 import com.example.rtc_client.R;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.Random;
 
 public class Utils {
@@ -38,8 +40,6 @@ public class Utils {
     }
 
     static int[][] colours={{
-        0xFF667db6,0xFF0082c8,0xFF0082c8,0xFF667db6 //https://uigradients.com/#Hydrogen
-    },{
         0xFFff9966,0xFFff9966 //https://uigradients.com/#OrangeCoral
     },{
         0xFFDCE35B,0xFF45B649 //https://uigradients.com/#EasyMed
@@ -63,7 +63,13 @@ public class Utils {
         int index=rand.nextInt(colours.length);
 
         Log.i("msg",Integer.toString(index));
-        return colours[index];
+
+        //appending black
+        int[] c=colours[index];
+        c=Arrays.copyOf(c,c.length+1);
+        c[c.length-1]=0xFF000000;
+
+        return c;
     }
 
 }

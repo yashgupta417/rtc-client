@@ -3,6 +3,7 @@ package com.example.rtc_client.views.homeView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
@@ -77,7 +78,8 @@ public class HomeActivity extends AppCompatActivity {
         RecyclerView roomsRecyclerView=findViewById(R.id.rooms_recycler_view);
 
         //adding layout manager
-        roomsRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.VERTICAL,false));
+        int NO_OF_COLUMNS=2;
+        roomsRecyclerView.setLayoutManager(new GridLayoutManager(this,NO_OF_COLUMNS));
         roomsRecyclerView.setHasFixedSize(true);
 
 
