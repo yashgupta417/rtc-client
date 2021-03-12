@@ -2,10 +2,11 @@ package com.example.rtc_client.data.models
 
 
 data class User(
-        val name: String?=null,
-        val username: String?=null,
-        val email: String?=null,
-        val password: String?=null,
-        val createdAt: Long?=null,
-        val roomsCount: Int?=null,
+        var name: String?=null,
+        var username: String?=null,
+        var email: String?=null,
+        var password: String?=null,
+        var createdAt: Long?=null,
+        var roomsCount: Int?=null,
+        var image: String?=null,
 )

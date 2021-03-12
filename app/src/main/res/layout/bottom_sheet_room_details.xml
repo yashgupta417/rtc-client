@@ -3,10 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/shade9">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/shade8">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
 
         <ImageView
             android:id="@+id/image"
@@ -30,111 +32,142 @@
             android:layout_below="@id/image"
             android:layout_marginTop="10dp"/>
 
-        <RelativeLayout
-            android:paddingVertical="10dp"
-            android:id="@+id/owner_rl"
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/shade9"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="5dp"
+            android:layout_marginHorizontal="15dp"
             android:layout_below="@id/name"
-            android:layout_marginTop="20dp">
-            <TextView
-                android:id="@+id/owner_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Owner"
-                android:textSize="14sp"
-                android:textColor="@color/shade5"
-                android:layout_marginLeft="15dp"/>
+            android:layout_marginTop="20dp"
+            android:id="@+id/owner_parent">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/owner_image"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/room_image_placeholder"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="15dp"
-                android:layout_below="@+id/owner_text"
-                android:layout_marginTop="10dp"/>
-
-            <TextView
-                android:id="@+id/owner_username"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/owner_image"
-                android:textColor="@color/white"
-                android:text="i_am_the_owner"
-                android:textSize="16sp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_alignBottom="@id/owner_image"/>
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:paddingVertical="10dp"
-            android:id="@+id/address_rl"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/owner_rl"
-            android:layout_marginTop="10dp">
-            <TextView
-                android:id="@+id/address_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Address"
-                android:textSize="14sp"
-                android:textColor="@color/shade5"
-                android:layout_marginLeft="15dp"/>
-
-            <ImageView
-                android:id="@+id/address_copy"
-                android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:src="@drawable/ic_baseline_content_copy_100"
-                android:layout_toRightOf="@+id/address"
-                android:layout_marginLeft="15dp"
-                android:layout_below="@+id/address_text"
-                android:layout_marginTop="13dp"/>
-
-
-
-            <TextView
-                android:id="@+id/address"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:textColor="@color/white"
-                android:text="#ABC123"
-                android:textSize="18sp"
-                android:layout_marginLeft="15dp"
-                android:layout_below="@id/address_text"
-                android:layout_marginTop="10dp"/>
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:paddingVertical="10dp"
-            android:id="@+id/members_rl"
-            android:layout_below="@id/address_rl"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
-
-            <TextView
-                android:id="@+id/members_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Members"
-                android:textSize="14sp"
-                android:textColor="@color/shade5"
-                android:layout_marginLeft="15dp"/>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/members_recycler_view"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/members_text"
-                android:layout_marginTop="7dp"
-                tools:listitem="@layout/member_item"/>
-        </RelativeLayout>
+                android:paddingVertical="10dp">
+                <TextView
+                    android:id="@+id/owner_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Owner"
+                    android:textSize="14sp"
+                    android:textColor="@color/shade5"
+                    android:layout_marginLeft="15dp"/>
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/owner_image"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/room_image_placeholder"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_below="@+id/owner_text"
+                    android:layout_marginTop="10dp"/>
+
+                <TextView
+                    android:id="@+id/owner_username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/owner_image"
+                    android:textColor="@color/white"
+                    android:text="i_am_the_owner"
+                    android:textSize="16sp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_alignBottom="@id/owner_image"/>
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/owner_parent"
+            app:cardBackgroundColor="@color/shade9"
+            android:layout_marginTop="10dp"
+            android:id="@+id/address_parent"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="5dp"
+            android:layout_marginHorizontal="15dp"
+            >
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="10dp">
+                <TextView
+                    android:id="@+id/address_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Address"
+                    android:textSize="14sp"
+                    android:textColor="@color/shade5"
+                    android:layout_marginLeft="15dp"/>
+
+                <ImageView
+                    android:id="@+id/address_copy"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:src="@drawable/ic_baseline_content_copy_100"
+                    android:layout_toRightOf="@+id/address"
+                    android:layout_marginLeft="15dp"
+                    android:layout_below="@+id/address_text"
+                    android:layout_marginTop="13dp"/>
+
+
+
+                <TextView
+                    android:id="@+id/address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:textColor="@color/white"
+                    android:text="#ABC123"
+                    android:textSize="18sp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_below="@id/address_text"
+                    android:layout_marginTop="10dp"/>
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/shade9"
+            app:cardElevation="5dp"
+            android:layout_marginHorizontal="15dp"
+            app:cardCornerRadius="10dp"
+            android:id="@+id/members_parent"
+            android:layout_marginBottom="20dp"
+            android:layout_below="@id/address_parent"
+            android:layout_marginTop="10dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="10dp">
+
+                <TextView
+                    android:id="@+id/members_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Members"
+                    android:textSize="14sp"
+                    android:textColor="@color/shade5"
+                    android:layout_marginLeft="15dp"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/members_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/members_text"
+                    android:layout_marginTop="7dp"
+                    tools:listitem="@layout/member_item"/>
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
     </RelativeLayout>
 
 

@@ -7,4 +7,5 @@ data class Room(
         var owner: User?=null,
         var createdAt: Long?=null,
         var membersCount: Int?=null,
+        var image: String?=null,
 )

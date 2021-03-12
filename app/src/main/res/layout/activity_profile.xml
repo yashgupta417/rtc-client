@@ -7,12 +7,11 @@
     android:background="@color/shade8"
     tools:context=".views.profileView.ProfileActivity">
 
-
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@drawable/home_toolbar"
+        android:background="@color/shade8"
         app:contentInsetEnd="0dp"
         app:contentInsetLeft="0dp"
         app:contentInsetRight="0dp"
@@ -22,49 +21,179 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/header_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <ImageView
+                android:id="@+id/back"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:layout_alignParentLeft="true"
-                android:text="Profile"
-                android:textStyle="bold"
-                android:textColor="@color/shade3"
-                android:textSize="20sp"
+                android:onClick="finishActivity"
+                android:src="@drawable/ic_baseline_back_100"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="20dp" />
+                android:layout_marginLeft="15dp" />
 
         </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>
 
-    <LinearLayout
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/loader"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/loader"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"/>
+    <RelativeLayout
+        android:id="@+id/parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/toolbar"
-        android:orientation="vertical">
-
-        <RelativeLayout
+        android:layout_below="@id/toolbar">
+        <TextView
+            android:id="@+id/profile_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Profile"
+            android:textColor="@color/shade7"
+            android:layout_alignParentTop="true"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            />
+        <androidx.cardview.widget.CardView
+            android:id="@+id/profile_parent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <TextView
-                android:id="@+id/logout_text"
+            android:layout_marginHorizontal="20dp"
+            android:layout_below="@id/profile_header"
+            android:layout_marginTop="10dp"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="8dp"
+            app:cardBackgroundColor="@color/shade9">
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Logout"
-                android:onClick="logout"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:paddingVertical="20dp"
-                android:paddingHorizontal="25dp"/>
+                android:paddingBottom="20dp">
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profile_image_bg"
+                    android:layout_width="125dp"
+                    android:layout_height="125dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="20dp"
+                    android:elevation="15dp"/>
 
-            <View
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profile_image"
+                    android:layout_width="125dp"
+                    android:layout_height="125dp"
+                    android:padding="25dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="20dp"
+                    android:src="@drawable/ic_baseline_person_100"
+                    android:elevation="15dp"/>
+
+
+
+                <TextView
+                    android:id="@+id/profile_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_below="@id/profile_image"
+                    android:layout_marginTop="20dp"
+                    tools:text="My Name"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/profile_username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/profile_name"
+                    android:layout_centerHorizontal="true"
+                    android:textColor="@color/shade5"
+                    android:textSize="16sp"
+                    tools:text="myusername"/>
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/edit_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_below="@id/profile_parent"
+            android:layout_marginTop="15dp"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="8dp"
+            app:cardBackgroundColor="@color/shade9"
+            android:onClick="moveToUpdateProfileActivity">
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="0.3dp"
-                android:background="@color/shade5"
-                android:layout_marginHorizontal="10dp"
-                android:layout_below="@+id/logout_text"/>
-        </RelativeLayout>
+                android:layout_height="wrap_content"
+                android:paddingBottom="18dp">
+                <ImageView
+                    android:id="@+id/edit_image"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginTop="18dp"
+                    android:src="@drawable/ic_baseline_edit_100"/>
 
-    </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/edit_image"
+                    android:text="Update Profile"
+                    android:textColor="@color/shade5"
+                    android:textSize="16sp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_centerVertical="true"/>
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/settings_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Settings"
+            android:textColor="@color/shade7"
+            android:layout_below="@id/edit_parent"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="30dp"
+            />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/settings_header"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="10dp"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="8dp"
+            android:onClick="logout"
+            app:cardBackgroundColor="@color/shade9">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/logout_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Logout"
+                    android:textColor="@color/shade5"
+                    android:textSize="16sp"
+                    android:paddingVertical="20dp"
+                    android:paddingHorizontal="25dp"/>
+
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+    </RelativeLayout>
+
 </RelativeLayout>

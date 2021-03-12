@@ -10,7 +10,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".views.SplashView.SplashActivity"></activity>
+        <activity android:name=".views.profileView.UpdateProfileActivity"></activity>
+        <activity android:name=".views.SplashView.SplashActivity" />
         <activity android:name=".views.roomView.RoomActivity" />
         <activity android:name=".views.profileView.ProfileActivity" />
         <activity android:name=".views.homeView.HomeActivity" />

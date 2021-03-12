@@ -1,6 +1,7 @@
 package com.example.rtc_client.data.repositories;
 
 import android.app.Application;
+import android.net.Uri;
 import android.widget.Toast;
 
 import androidx.lifecycle.LiveData;
@@ -10,18 +11,28 @@ import com.example.rtc_client.api.RetrofitClient;
 import com.example.rtc_client.api.routes.UserRoutes;
 import com.example.rtc_client.data.models.Room;
 import com.example.rtc_client.data.models.User;
+import com.example.rtc_client.utils.LocalStorage;
+import com.example.rtc_client.utils.Utils;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import id.zelory.compressor.Compressor;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class UserRepository {
     Application application;
+    MutableLiveData<Integer> updateUserResult;
     public UserRepository(Application application){
         this.application=application;
+        updateUserResult=new MutableLiveData<>();
     }
 
     public LiveData<ArrayList<Room>> getAllRooms(String username){
@@ -65,5 +76,62 @@ public class UserRepository {
             }
         });
         return user;
+    }
+
+    public LiveData<Integer> updateUser(Uri image, User user){
+
+        String username= LocalStorage.getString("username",application);
+
+        updateUserResult.setValue(0);
+        if(image==null){
+            updateUser(user,username);
+        }else
+            updateUserImage(image,user,username);
+        return  updateUserResult;
+    }
+
+
+    //step-1 of user update
+    private void updateUserImage(Uri image, User user,String username){
+        //converting Uri to imagePart
+        MultipartBody.Part imagePart= Utils.uriToImagePart(image,application);
+
+        Call<User> call= RetrofitClient.getInstance(application).create(UserRoutes.class).updateUserImage(imagePart,username);
+
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if(!response.isSuccessful()){
+                    updateUserResult.setValue(-1);
+                    return;
+                }
+                updateUser(user,username);
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                updateUserResult.setValue(-1);
+            }
+        });
+    }
+
+    //step-2 of user update
+    private void updateUser(User user,String username){
+        Call<User> call=RetrofitClient.getInstance(application).create(UserRoutes.class).updateUser(user,username);
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if(!response.isSuccessful()){
+                    updateUserResult.setValue(-1);
+                    return;
+                }
+                updateUserResult.setValue(1);
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                updateUserResult.setValue(-1);
+            }
+        });
     }
 }

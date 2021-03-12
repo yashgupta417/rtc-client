@@ -135,7 +135,7 @@ public class LoginSignupActivity extends AppCompatActivity {
             return;
         }
 
-        User user=new User(nameString,usernameString,emailString,passwordString,null,null);
+        User user=new User(nameString,usernameString,emailString,passwordString,null,null,null);
         signUp(user);
 
     }
@@ -164,7 +164,7 @@ public class LoginSignupActivity extends AppCompatActivity {
             return;
         }
 
-        User user=new User(null,username.getText().toString(),null,password.getText().toString(),null,null);
+        User user=new User(null,username.getText().toString(),null,password.getText().toString(),null,null,null);
         login(user);
     }
 
