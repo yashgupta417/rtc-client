@@ -9,28 +9,128 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/shade8"
+            app:contentInsetEnd="0dp"
+            app:contentInsetLeft="0dp"
+            app:contentInsetRight="0dp"
+            app:contentInsetStart="0dp"
+            android:layout_alignParentTop="true">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/image"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="30dp"
-            android:src="@drawable/room_image_placeholder"
-            android:elevation="5dp"
-            android:scaleType="centerCrop"/>
+                <ImageView
+                    android:id="@+id/back"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_alignParentLeft="true"
+                    android:src="@drawable/ic_baseline_back_100"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp" />
 
-        <TextView
-            android:id="@+id/name"
-            android:layout_width="wrap_content"
+
+
+            </RelativeLayout>
+        </androidx.appcompat.widget.Toolbar>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/room_detail_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Room Name"
-            android:textSize="20sp"
-            android:textColor="@color/white"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/image"
-            android:layout_marginTop="10dp"/>
+            app:cardBackgroundColor="@color/shade9"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="5dp"
+            android:layout_marginHorizontal="15dp"
+            android:layout_below="@id/toolbar"
+            android:layout_marginTop="10dp">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="10dp">
+
+                <pl.droidsonroids.gif.GifImageView
+                    android:id="@+id/update_loader"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/load_shade9"/>
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/image_bg"
+                    android:layout_width="130dp"
+                    android:layout_height="130dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="20dp"
+                    android:elevation="10dp"
+                    android:scaleType="centerCrop"/>
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/image"
+                    android:layout_width="130dp"
+                    android:layout_height="130dp"
+                    android:padding="30dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="20dp"
+                    android:src="@drawable/ic_baseline_group_100"
+                    android:elevation="10dp" />
+
+
+                <ImageView
+                    android:id="@+id/image_edit"
+                    android:layout_width="37dp"
+                    android:layout_height="37dp"
+                    android:padding="3dp"
+                    android:src="@drawable/edit_room_image"
+                    android:layout_alignRight="@id/image"
+                    android:elevation="13dp"
+                    android:layout_alignBottom="@id/image"/>
+
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Room Name"
+                    android:textSize="20sp"
+                    android:textColor="@color/white"
+                    android:layout_centerHorizontal="true"
+                    android:layout_below="@id/image"
+                    android:layout_marginTop="15dp" />
+
+                <ImageView
+                    android:id="@+id/name_edit"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/ic_baseline_edit_100"
+                    android:layout_alignTop="@id/name"
+                    android:layout_marginTop="5dp"
+                    android:alpha="0.5"
+                    android:layout_marginRight="15dp"/>
+
+
+                <TextView
+                    android:id="@+id/room_created_on"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/name"
+                    android:layout_centerHorizontal="true"
+                    tools:text="created on:"
+                    android:textColor="@color/shade6"
+                    android:layout_marginBottom="10dp"
+                    />
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -39,7 +139,7 @@
             app:cardCornerRadius="10dp"
             app:cardElevation="5dp"
             android:layout_marginHorizontal="15dp"
-            android:layout_below="@id/name"
+            android:layout_below="@id/room_detail_parent"
             android:layout_marginTop="20dp"
             android:id="@+id/owner_parent">
 
@@ -57,10 +157,20 @@
                     android:layout_marginLeft="15dp"/>
 
                 <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/owner_image_bg"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_below="@+id/owner_text"
+                    android:layout_marginTop="10dp"/>
+
+                <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/owner_image"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@drawable/room_image_placeholder"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_baseline_person_100"
                     android:layout_alignParentLeft="true"
                     android:layout_marginLeft="15dp"
                     android:layout_below="@+id/owner_text"
@@ -72,7 +182,7 @@
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@+id/owner_image"
                     android:textColor="@color/white"
-                    android:text="i_am_the_owner"
+                    tools:text="i_am_the_owner"
                     android:textSize="16sp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginBottom="10dp"

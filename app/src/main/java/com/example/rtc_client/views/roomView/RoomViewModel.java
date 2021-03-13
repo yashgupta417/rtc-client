@@ -1,6 +1,7 @@
 package com.example.rtc_client.views.roomView;
 
 import android.app.Application;
+import android.net.Uri;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -35,5 +36,13 @@ public class RoomViewModel extends AndroidViewModel {
 
     public LiveData<AgoraTokenResponse> getAgoraToken(String username, String roomName){
         return agoraRepository.getAgoraToken(username,roomName);
+    }
+
+    public LiveData<Room> updateRoom(Room room,String address){
+        return roomRepository.updateRoom(room,address);
+    }
+
+    public LiveData<Room> updateRoomImage(Uri uri,String address){
+        return roomRepository.updateRoomImage(uri,address);
     }
 }

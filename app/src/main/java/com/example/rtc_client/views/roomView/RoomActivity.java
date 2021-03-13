@@ -32,12 +32,14 @@ import com.example.rtc_client.api.objects.AgoraTokenResponse;
 import com.example.rtc_client.data.models.AgoraUser;
 import com.example.rtc_client.data.models.Room;
 import com.example.rtc_client.data.models.User;
+import com.example.rtc_client.utils.GlideApp;
 import com.example.rtc_client.utils.LocalStorage;
 import com.example.rtc_client.utils.Utils;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import io.agora.rtc.IRtcChannelEventHandler;
 import io.agora.rtc.IRtcEngineEventHandler;
 import io.agora.rtc.RtcEngine;
@@ -69,6 +71,7 @@ public class RoomActivity extends AppCompatActivity {
     RecyclerView participantRecyclerView;
     CallParticipantAdapter participantAdapter;
     TextView roomNameHeaderTextView;
+    CircleImageView imageView;
     Room room;
 
     RoomViewModel viewModel;
@@ -159,6 +162,7 @@ public class RoomActivity extends AppCompatActivity {
         loader=findViewById(R.id.loader);
         loader.setVisibility(View.VISIBLE);
 
+        imageView=findViewById(R.id.header_room_image);
 
         audioButton=findViewById(R.id.audio_button);
         videoButton=findViewById(R.id.video_button);
@@ -416,6 +420,22 @@ public class RoomActivity extends AppCompatActivity {
     public void openRoomDetailsSheet(View view){
         RoomDetailsBottomSheet bottomSheet=new RoomDetailsBottomSheet(room);
         bottomSheet.show(getSupportFragmentManager(),"roomDetails");
+
+        //listening for updates
+        bottomSheet.setOnEditListener(new RoomDetailsBottomSheet.OnEditListener() {
+            @Override
+            public void onImageEdit(String roomImage) {
+                room.setImage(roomImage);
+            }
+
+            @Override
+            public void onNameEdit(String roomName) {
+                room.setName(roomName);
+
+                //updating roomName header
+                roomNameHeaderTextView.setText(roomName);
+            }
+        });
     }
 
     public void openChatBottomSheet(View view){

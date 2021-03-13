@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardBackgroundColor="@color/shade9"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="5dp"
+    android:layout_marginHorizontal="25dp">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="30dp">
+        <TextView
+            android:id="@+id/dialog_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Edit Name"
+            android:textStyle="bold"
+            android:textColor="@color/shade4"
+            android:textSize="20sp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="15dp"/>
+
+        <ImageView
+            android:id="@+id/dialog_close"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="15dp"
+            android:src="@drawable/ic_baseline_close_100"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="15dp"/>
+
+        <EditText
+            android:id="@+id/dialog_room_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/dialog_header"
+            android:background="@drawable/edit_room_name_edit_text"
+            android:paddingVertical="10dp"
+            android:paddingHorizontal="15dp"
+            android:textColor="@color/white"
+            android:hint="room name"
+            android:textColorHint="@color/shade6"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginTop="20dp"/>
+
+        <Button
+            android:id="@+id/dialog_submit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/dialog_room_name"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginTop="15dp"
+            android:text="Update"
+            android:textSize="16sp"
+            android:textColor="@color/white"
+            android:textAllCaps="false"
+            android:background="@drawable/edit_room_name_submit"/>
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

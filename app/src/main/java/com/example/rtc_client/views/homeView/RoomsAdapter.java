@@ -1,6 +1,7 @@
 package com.example.rtc_client.views.homeView;
 
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.rtc_client.R;
 import com.example.rtc_client.data.models.Room;
+import com.example.rtc_client.utils.GlideApp;
 import com.example.rtc_client.utils.Utils;
 
 import java.util.ArrayList;
@@ -24,17 +26,21 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.RoomViewHolder> {
     Context context;
     ArrayList<Room> rooms;
-//    ArrayList<int[]> colours;
+    ArrayList<Integer> colours;
 
     public RoomsAdapter(ArrayList<Room> rooms,Context context){
 
         this.context=context;
         this.rooms=rooms;
 
-//        colours=new ArrayList<>();
-//        for(int i=0;i<this.rooms.size();i++){
-//            colours.add(Utils.getGradientColours());
-//        }
+
+    }
+
+    public void setColours(){
+        colours=new ArrayList<>();
+        for(int i=0;i<this.rooms.size();i++){
+            colours.add(Utils.getRandomColour());
+        }
     }
 
     @NonNull
@@ -55,6 +61,17 @@ public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.RoomViewHold
         holder.roomMembersCount.setText(Integer.toString(room.getMembersCount())+" members");
 
 
+        if(room.getImage()!=null) {
+            //removing padding
+            holder.roomImage.setPadding(0,0,0,0);
+
+            GlideApp.with(context).load(room.getImage()).into(holder.roomImage);
+        }
+        else{
+            //setting background
+            ColorDrawable colorDrawable=new ColorDrawable(colours.get(position));
+            GlideApp.with(context).load(colorDrawable).into(holder.roomImageBG);
+        }
         //setting gradient background
 //        GradientDrawable gradientDrawable=new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,colours.get(position));
 //        gradientDrawable.setCornerRadius(5f);
@@ -86,7 +103,7 @@ public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.RoomViewHold
         this.listener=listener;
     }
     public static class RoomViewHolder extends RecyclerView.ViewHolder{
-        CircleImageView roomImage;
+        CircleImageView roomImage,roomImageBG;
         TextView roomName, roomMembersCount;
         RelativeLayout parent;
         public RoomViewHolder(@NonNull View itemView,final onItemClickListener listener) {
@@ -95,6 +112,7 @@ public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.RoomViewHold
             roomImage=itemView.findViewById(R.id.room_image);
             roomName=itemView.findViewById(R.id.room_name);
             roomMembersCount=itemView.findViewById(R.id.member_count);
+            roomImageBG=itemView.findViewById(R.id.room_image_bg);
             //parent=itemView.findViewById(R.id.parent);
 
             itemView.setOnClickListener(new View.OnClickListener(){

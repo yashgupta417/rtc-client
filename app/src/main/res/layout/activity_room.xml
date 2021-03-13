@@ -49,18 +49,19 @@
                 android:src="@drawable/ic_baseline_chat_bubble_outline_100"
                 android:layout_centerVertical="true"
                 android:onClick="openChatBottomSheet"
-                android:layout_toLeftOf="@+id/up_down_arrow"
+                android:layout_toLeftOf="@+id/header_room_image"
                 android:layout_marginRight="15dp"/>
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/up_down_arrow"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/room_image_placeholder"
-                android:onClick="openRoomDetailsSheet"
-                android:layout_centerVertical="true"
+                android:id="@+id/header_room_image"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:alpha="0.6"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="10dp"/>
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:onClick="openRoomDetailsSheet"
+                android:src="@drawable/ic_baseline_group_100" />
 
 
         </RelativeLayout>

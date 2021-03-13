@@ -48,7 +48,7 @@ public class HomeActivity extends AppCompatActivity {
 
         viewModel= ViewModelProviders.of(this).get(HomeViewModel.class);
 
-        fetchAndShowUserRooms();
+        fetchAndShowUserRooms(true);
 
     }
 
@@ -80,8 +80,10 @@ public class HomeActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void fetchAndShowUserRooms(){
-        loader.setVisibility(View.VISIBLE);
+    public void fetchAndShowUserRooms(boolean showLoader){
+
+        if(showLoader)
+            loader.setVisibility(View.VISIBLE);
         String username=LocalStorage.getString("username",getApplication());
         viewModel.getRooms(username).observe(this, new Observer<ArrayList<Room>>() {
             @Override
@@ -100,11 +102,16 @@ public class HomeActivity extends AppCompatActivity {
 
         Log.i("msg",Integer.toString(rooms.size()));
         roomsAdapter.rooms=rooms;
+        roomsAdapter.setColours();
         roomsAdapter.notifyDataSetChanged();
     }
 
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        fetchAndShowUserRooms(false);
+    }
 
     public void showCreateRoomLayout(View view){
         CreateRoomBottomSheet createRoomBottomSheet=new CreateRoomBottomSheet();
@@ -114,7 +121,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onRoomCreate() {
                 Toast.makeText(HomeActivity.this, "Room created", Toast.LENGTH_SHORT).show();
-                fetchAndShowUserRooms();
+                fetchAndShowUserRooms(true);
             }
         });
     }
@@ -127,7 +134,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onRoomJoin() {
                 Toast.makeText(HomeActivity.this, "Room Joined", Toast.LENGTH_SHORT).show();
-                fetchAndShowUserRooms();
+                fetchAndShowUserRooms(true);
             }
 
         });

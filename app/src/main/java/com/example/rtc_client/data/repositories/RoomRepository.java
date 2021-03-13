@@ -1,6 +1,7 @@
 package com.example.rtc_client.data.repositories;
 
 import android.app.Application;
+import android.net.Uri;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -11,7 +12,9 @@ import com.example.rtc_client.api.RetrofitClient;
 import com.example.rtc_client.api.objects.CreateRoomRequest;
 import com.example.rtc_client.api.routes.RoomRoutes;
 import com.example.rtc_client.data.models.Room;
+import com.example.rtc_client.utils.Utils;
 
+import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -84,5 +87,57 @@ public class RoomRepository {
             }
         });
         return room;
+    }
+
+    public LiveData<Room> updateRoom(Room room,String address){
+        MutableLiveData<Room> result=new MutableLiveData<>();
+
+        Call<Room> call=RetrofitClient.getInstance(application).create(RoomRoutes.class).updateRoom(room,address);
+
+        call.enqueue(new Callback<Room>() {
+            @Override
+            public void onResponse(Call<Room> call, Response<Room> response) {
+                if(!response.isSuccessful()){
+                    result.setValue(new Room());
+                    return;
+                }
+
+                result.setValue(response.body());
+
+            }
+
+            @Override
+            public void onFailure(Call<Room> call, Throwable t) {
+                result.setValue(new Room());
+            }
+        });
+
+        return result;
+    }
+
+    public LiveData<Room> updateRoomImage(Uri uri,String address){
+        MutableLiveData<Room> result=new MutableLiveData<>();
+
+        MultipartBody.Part imagePart=Utils.uriToImagePart(uri,application);
+        Call<Room> call=RetrofitClient.getInstance(application).create(RoomRoutes.class).updateRoomImage(imagePart,address);
+
+        call.enqueue(new Callback<Room>() {
+            @Override
+            public void onResponse(Call<Room> call, Response<Room> response) {
+                if(!response.isSuccessful()){
+                    result.setValue(new Room());
+                    return;
+                }
+
+                result.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<Room> call, Throwable t) {
+                result.setValue(new Room());
+            }
+        });
+
+        return result;
     }
 }

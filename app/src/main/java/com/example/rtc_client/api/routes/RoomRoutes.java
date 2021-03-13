@@ -28,9 +28,9 @@ public interface RoomRoutes {
     Call<Room> getRoom(@Path("address") String address);
 
     @PATCH("room/{address}")
-    Call<Room> updateRoom(@Body Room room);
+    Call<Room> updateRoom(@Body Room room,@Path("address") String address);
 
     @Multipart
     @PATCH("room/{address}/image")
-    Call<Room> updateRoomImage(@Part MultipartBody.Part image);
+    Call<Room> updateRoomImage(@Part MultipartBody.Part image,@Path("address") String address);
 }
