@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -36,6 +37,14 @@ public class JoinRoomBottomSheet extends BottomSheetDialogFragment {
         return v;
     }
 
+    public void updateButtonState(boolean isEnabled){
+        if(isEnabled){
+            joinButton.setAlpha(1f);
+        }else{
+            joinButton.setAlpha(0.3f);
+        }
+        joinButton.setEnabled(isEnabled);
+    }
     public void activateButton(){
         joinButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,7 +57,6 @@ public class JoinRoomBottomSheet extends BottomSheetDialogFragment {
     private JoinRoomBottomSheet.OnRoomCreateListener listener;
     public interface OnRoomCreateListener{
         void onRoomJoin();
-        void onFailure();
     }
 
 
@@ -59,19 +67,31 @@ public class JoinRoomBottomSheet extends BottomSheetDialogFragment {
     public void joinRoom(){
         String address=addressEditText.getText().toString().trim();
         if(address.isEmpty()){
-            Utils.showToast("Please enter the room address.",getActivity());
+            Toast.makeText(getActivity(), "Please enter the room address.", Toast.LENGTH_SHORT).show();
             return;
         }
+
+
+        //disable button
+        updateButtonState(false);
+
         String username= LocalStorage.getString("username",getActivity().getApplication());
         viewModel.joinRoom(address,username).observe(this, new Observer<Integer>() {
             @Override
             public void onChanged(Integer integer) {
                 if(integer==1){
                     listener.onRoomJoin();
+
+                    //dismiss
+                    dismiss();
                 }else if(integer==-1){
-                    listener.onFailure();
+                    //show fail message
+                    Toast.makeText(getActivity(), "Something went wrong", Toast.LENGTH_SHORT).show();
+
+                    //enable button
+                    updateButtonState(true);
                 }
-                dismiss();
+
             }
         });
     }

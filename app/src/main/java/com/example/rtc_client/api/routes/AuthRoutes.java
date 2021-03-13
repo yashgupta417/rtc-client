@@ -2,7 +2,7 @@ package com.example.rtc_client.api.routes;
 
 
 import com.example.rtc_client.api.objects.AuthResponse;
-import com.example.rtc_client.api.objects.Response;
+import com.example.rtc_client.api.objects.Message;
 import com.example.rtc_client.data.models.User;
 
 import retrofit2.Call;
@@ -19,6 +19,6 @@ public interface AuthRoutes {
     Call<AuthResponse> login(@Body User user);
 
     @GET("")
-    Call<Response> checkUsernameValidOrNot(@Query("username") String username);
+    Call<Message> checkUsernameValidOrNot(@Query("username") String username);
 
 }

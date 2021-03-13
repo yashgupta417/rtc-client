@@ -22,7 +22,7 @@ public class LoginSignupViewModel extends AndroidViewModel {
         return authRepository.login(user);
     }
 
-    public LiveData<Integer> signUp(User user){
+    public LiveData<String> signUp(User user){
         return authRepository.signUp(user);
     }
 

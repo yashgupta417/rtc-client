@@ -36,19 +36,6 @@ public class Utils {
         return m.matches();
     }
 
-    public static void showToast(String message, Activity activity){
-        LayoutInflater inflater=activity.getLayoutInflater();
-        View view=inflater.inflate(R.layout.custom_toast,activity.findViewById(R.id.toast_root));
-
-        TextView textView=view.findViewById(R.id.message);
-        textView.setText(message);
-
-
-        Toast toast=new Toast(activity);
-        toast.setDuration(Toast.LENGTH_SHORT);
-        toast.setView(view);
-        toast.show();
-    }
 
     static int[][] gradientColours={{
         0xFFff9966,0xFFff9966 //https://uigradients.com/#OrangeCoral

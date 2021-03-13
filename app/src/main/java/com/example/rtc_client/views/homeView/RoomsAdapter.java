@@ -19,6 +19,8 @@ import com.example.rtc_client.utils.Utils;
 
 import java.util.ArrayList;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.RoomViewHolder> {
     Context context;
     ArrayList<Room> rooms;
@@ -84,7 +86,7 @@ public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.RoomViewHold
         this.listener=listener;
     }
     public static class RoomViewHolder extends RecyclerView.ViewHolder{
-        ImageView roomImage;
+        CircleImageView roomImage;
         TextView roomName, roomMembersCount;
         RelativeLayout parent;
         public RoomViewHolder(@NonNull View itemView,final onItemClickListener listener) {

@@ -71,8 +71,6 @@ public class RoomActivity extends AppCompatActivity {
     TextView roomNameHeaderTextView;
     Room room;
 
-
-
     RoomViewModel viewModel;
 
     @Override
@@ -80,7 +78,10 @@ public class RoomActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room);
 
+        showRoomNameOnTop();
+
         viewModel= ViewModelProviders.of(this).get(RoomViewModel.class);
+
         fetchRoomDetails();
 
         if(!havePermissions()){
@@ -90,6 +91,12 @@ public class RoomActivity extends AppCompatActivity {
         }
     }
 
+    public void showRoomNameOnTop(){
+        String name=getIntent().getStringExtra("name");
+
+        roomNameHeaderTextView=findViewById(R.id.header_room_name);
+        roomNameHeaderTextView.setText(name);
+    }
     public Boolean havePermissions(){
         for(String permission: REQUESTED_PERMISSIONS){
             if(ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED)
@@ -106,7 +113,7 @@ public class RoomActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode==PERMISSION_REQ_ID){
             if(!havePermissions()){
-                Utils.showToast("Can't proceed without permissions.",this);
+                Toast.makeText(this, "Can't proceed without permissions.", Toast.LENGTH_SHORT).show();
                 finish();
             }else{
                 fetchRoomDetails();
@@ -151,12 +158,6 @@ public class RoomActivity extends AppCompatActivity {
         //setting up loader
         loader=findViewById(R.id.loader);
         loader.setVisibility(View.VISIBLE);
-
-
-        //setting room name
-        roomNameHeaderTextView=findViewById(R.id.header_room_name);
-        roomNameHeaderTextView.setText(room.getName());
-
 
 
         audioButton=findViewById(R.id.audio_button);

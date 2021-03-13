@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.rtc_client.api.RetrofitClient;
 import com.example.rtc_client.api.objects.AuthResponse;
+import com.example.rtc_client.api.objects.Message;
 import com.example.rtc_client.api.routes.AuthRoutes;
 import com.example.rtc_client.data.models.User;
 import com.example.rtc_client.utils.LocalStorage;
@@ -51,25 +52,31 @@ public class AuthRepository {
         return result;
     }
 
-    public LiveData<Integer> signUp(User user){
-        MutableLiveData<Integer> result=new MutableLiveData<Integer>();
+    public LiveData<String> signUp(User user){
+        MutableLiveData<String> result=new MutableLiveData<>();
         Call<User> call=RetrofitClient.getInstance(application).create(AuthRoutes.class).signUp(user);
+
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if(!response.isSuccessful()){
-                    result.setValue(-1);
+                    try {
+                        result.setValue(response.errorBody().string());
+                    }catch(Exception e){
+                        //do nothing
+                    }
+
                     return;
                 }
-
-                result.setValue(1);
+                result.setValue("1");
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                result.setValue(-1);
+                result.setValue("-2");
             }
         });
+
         return result;
     }
 

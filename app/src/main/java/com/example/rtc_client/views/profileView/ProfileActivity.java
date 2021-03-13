@@ -113,14 +113,13 @@ public class ProfileActivity extends AppCompatActivity {
 
     public void logout(View view){
         //erasing login details
-        LocalStorage.saveString("token",null,getApplication());
-        LocalStorage.saveString("username",null,getApplication());
+        LocalStorage.removeString("token",getApplication());
+        LocalStorage.removeString("username",getApplication());
 
         //moving to login screen
         Intent intent=new Intent(getApplicationContext(), LoginSignupActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
-        overridePendingTransition(0,0);
     }
 
     public void moveToUpdateProfileActivity(View view){

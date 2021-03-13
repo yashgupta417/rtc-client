@@ -111,24 +111,4 @@ public class RoomDetailsBottomSheet extends BottomSheetDialogFragment {
         Toast.makeText(getActivity(), "Copied!", Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                if (Build.VERSION.SDK_INT < 16) {
-                    view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                } else {
-                    view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                }
-                BottomSheetDialog dialog = (BottomSheetDialog) getDialog();
-                FrameLayout bottomSheet = (FrameLayout)
-                        dialog.findViewById(com.google.android.material.R.id.design_bottom_sheet);
-                BottomSheetBehavior behavior = BottomSheetBehavior.from(bottomSheet);
-                behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-                behavior.setPeekHeight(0); // Remove this line to hide a dark background if you manually hide the dialog.
-            }
-        });
-    }
 }

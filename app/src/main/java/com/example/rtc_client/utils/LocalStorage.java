@@ -17,4 +17,8 @@ public class LocalStorage {
     public static String getString(String key,Application application){
         return getPreferences(application).getString(key,null);
     }
+
+    public static void removeString(String key,Application application){
+        getPreferences(application).edit().remove(key).apply();
+    }
 }

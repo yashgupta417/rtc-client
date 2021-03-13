@@ -31,32 +31,52 @@ import pl.droidsonroids.gif.GifImageView;
 
 public class HomeActivity extends AppCompatActivity {
 
-    Button createRoomButton, joinRoomButton;
     HomeViewModel viewModel;
     GifImageView loader;
+    RecyclerView roomsRecyclerView;
+    RoomsAdapter roomsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        createRoomButton=findViewById(R.id.create_room);
-        joinRoomButton=findViewById(R.id.join_room);
+
         loader=findViewById(R.id.loader);
+        initRecylerView();
+
+
         viewModel= ViewModelProviders.of(this).get(HomeViewModel.class);
 
         fetchAndShowUserRooms();
 
     }
 
+    public void initRecylerView(){
+        //rooms recycler view
+        roomsRecyclerView=findViewById(R.id.rooms_recycler_view);
+        //adding layout manager
+        roomsRecyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
+        roomsRecyclerView.setHasFixedSize(true);
+        roomsAdapter=new RoomsAdapter(new ArrayList<Room>(),getApplicationContext());
+        roomsAdapter.setOnItemClickListener(new RoomsAdapter.onItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                Room room=roomsAdapter.rooms.get(position);
+                moveToRoomActivity(room.getAddress(), room.getName());
+            }
+        });
+        roomsRecyclerView.setAdapter(roomsAdapter);
+    }
     public void moveToProfileScreen(View view){
         Intent intent=new Intent(getApplicationContext(), ProfileActivity.class);
         startActivity(intent);
     }
 
-    public void moveToRoomActivity(String address){
+    public void moveToRoomActivity(String address,String name){
         Intent intent=new Intent(getApplicationContext(), RoomActivity.class);
         intent.putExtra("address",address);
+        intent.putExtra("name",name);
         startActivity(intent);
     }
 
@@ -69,29 +89,18 @@ public class HomeActivity extends AppCompatActivity {
                 if(rooms!=null) {
                     loader.setVisibility(View.GONE);
                     showUserRooms(rooms);
+
+                    viewModel.getRooms(username).removeObserver(this);
                 }
             }
         });
     }
 
     public void showUserRooms(ArrayList<Room> rooms){
-        RecyclerView roomsRecyclerView=findViewById(R.id.rooms_recycler_view);
 
-        //adding layout manager
-        int NO_OF_COLUMNS=2;
-        roomsRecyclerView.setLayoutManager(new GridLayoutManager(this,NO_OF_COLUMNS));
-        roomsRecyclerView.setHasFixedSize(true);
-
-
-        RoomsAdapter roomsAdapter=new RoomsAdapter(rooms,getApplicationContext());
-        roomsAdapter.setOnItemClickListener(new RoomsAdapter.onItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                String address=roomsAdapter.rooms.get(position).getAddress();
-                moveToRoomActivity(address);
-            }
-        });
-        roomsRecyclerView.setAdapter(roomsAdapter);
+        Log.i("msg",Integer.toString(rooms.size()));
+        roomsAdapter.rooms=rooms;
+        roomsAdapter.notifyDataSetChanged();
     }
 
 
@@ -104,13 +113,8 @@ public class HomeActivity extends AppCompatActivity {
         createRoomBottomSheet.setOnRoomCreateListener(new CreateRoomBottomSheet.OnRoomCreateListener(){
             @Override
             public void onRoomCreate() {
-                Utils.showToast("Room created",HomeActivity.this);
+                Toast.makeText(HomeActivity.this, "Room created", Toast.LENGTH_SHORT).show();
                 fetchAndShowUserRooms();
-            }
-
-            @Override
-            public void onFailure() {
-                Utils.showToast("Something went wrong",HomeActivity.this);
             }
         });
     }
@@ -122,14 +126,10 @@ public class HomeActivity extends AppCompatActivity {
         joinRoomBottomSheet.setOnRoomJoinListener(new JoinRoomBottomSheet.OnRoomCreateListener() {
             @Override
             public void onRoomJoin() {
-                Utils.showToast("Room Joined",HomeActivity.this);
+                Toast.makeText(HomeActivity.this, "Room Joined", Toast.LENGTH_SHORT).show();
                 fetchAndShowUserRooms();
             }
 
-            @Override
-            public void onFailure() {
-                Utils.showToast("Something went wrong",HomeActivity.this);
-            }
         });
     }
 

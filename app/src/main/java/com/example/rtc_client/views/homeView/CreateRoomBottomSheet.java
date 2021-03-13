@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -39,10 +40,18 @@ public class CreateRoomBottomSheet extends BottomSheetDialogFragment {
         return view;
     }
 
+    public void updateButtonState(boolean isEnabled){
+        if(isEnabled){
+            createRoomButton.setAlpha(1f);
+        }else{
+            createRoomButton.setAlpha(0.3f);
+        }
+        createRoomButton.setEnabled(isEnabled);
+    }
     private OnRoomCreateListener listener;
     public interface OnRoomCreateListener{
         void onRoomCreate();
-        void onFailure();
+
     }
 
     public void setOnRoomCreateListener(OnRoomCreateListener listener){
@@ -58,11 +67,15 @@ public class CreateRoomBottomSheet extends BottomSheetDialogFragment {
         });
     }
     public void createRoom(){
+
         String roomName=roomNameEditText.getText().toString().trim();
         if(roomName.isEmpty()){
-            Utils.showToast("Please enter room name",getActivity());
+            Toast.makeText(getActivity(), "Please enter room name", Toast.LENGTH_SHORT).show();
             return;
         }
+
+        //disabling button
+        updateButtonState(false);
 
         String username=LocalStorage.getString("username",getActivity().getApplication());
 
@@ -71,10 +84,16 @@ public class CreateRoomBottomSheet extends BottomSheetDialogFragment {
             public void onChanged(Integer result) {
                 if(result==1){
                     listener.onRoomCreate();
+
+                    //dismiss sheet
+                    dismiss();
                 }else if(result<0){
-                    listener.onFailure();
+                    //show fail message
+                    Toast.makeText(getActivity(), "Something went wrong", Toast.LENGTH_SHORT).show();
+
+                    //enable button
+                    updateButtonState(true);
                 }
-                dismiss();
             }
         });
     }

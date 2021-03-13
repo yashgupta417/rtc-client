@@ -148,7 +148,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
             updateButton.setEnabled(true);
         }else{
             updateButton.setEnabled(false);
-            updateButton.setAlpha(0.5f);
+            updateButton.setAlpha(0.2f);
         }
     }
 

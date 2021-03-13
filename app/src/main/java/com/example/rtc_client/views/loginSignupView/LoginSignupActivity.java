@@ -117,7 +117,19 @@ public class LoginSignupActivity extends AppCompatActivity {
     }
 
 
+    public void updateUIState(boolean isEnabled){
+        if(isEnabled){
+            submitButton.setAlpha(1f);
+            submitButton.setEnabled(isEnabled);
+        }else{
+            submitButton.setEnabled(isEnabled);
+            submitButton.setAlpha(0.3f);
+        }
+    }
     public void signUp(){
+        //disabling submit button
+        updateUIState(false);
+
         String usernameString=username.getText().toString();
         String passwordString=password.getText().toString();
         String nameString=name.getText().toString();
@@ -126,12 +138,15 @@ public class LoginSignupActivity extends AppCompatActivity {
 
 
         if(usernameString.trim().isEmpty() || passwordString.trim().isEmpty() || nameString.trim().isEmpty() || emailString.trim().isEmpty()){
-            Utils.showToast("Please fill all the details",this);
+
+            Toast.makeText(this, "Please fill all the details", Toast.LENGTH_SHORT).show();
+            updateUIState(true);
             return;
         }
 
         if(passwordString.trim().length()<8){
-            Utils.showToast("Password must contain 8 characters",this);
+            Toast.makeText(this, "Password must contain 8 characters", Toast.LENGTH_SHORT).show();
+            updateUIState(true);
             return;
         }
 
@@ -141,13 +156,24 @@ public class LoginSignupActivity extends AppCompatActivity {
     }
 
     public void signUp(User user){
-        viewModel.signUp(user).observe(this, new Observer<Integer>() {
+
+        viewModel.signUp(user).observe(this, new Observer<String>() {
             @Override
-            public void onChanged(Integer integer) {
-                if(integer==-1){
-                    Utils.showToast("Something went wrong.",LoginSignupActivity.this);
-                }else if(integer==1){
+            public void onChanged(String string) {
+                if(string=="-2"){
+                    Toast.makeText(LoginSignupActivity.this, "Check your internet connection", Toast.LENGTH_SHORT).show();
+
+                    //enabling back submit button
+                    updateUIState(true);
+                }
+                else if(string=="1"){
                     login();
+                }
+                else if(string!=null && string.length()>2){
+                    Toast.makeText(LoginSignupActivity.this, string, Toast.LENGTH_SHORT).show();
+
+                    //enabling back submit button
+                    updateUIState(true);
                 }
             }
         });
@@ -155,12 +181,16 @@ public class LoginSignupActivity extends AppCompatActivity {
 
 
     public void login(){
+        //disabling submit button
+        updateUIState(false);
+
         String usernameString=username.getText().toString();
         String passwordString=password.getText().toString();
 
         //Validating details
         if(usernameString.trim().isEmpty() || passwordString.trim().isEmpty()){
-            Utils.showToast("Enter username and password",this);
+            Toast.makeText(this, "Enter username and password", Toast.LENGTH_SHORT).show();
+            updateUIState(true);
             return;
         }
 
@@ -169,16 +199,22 @@ public class LoginSignupActivity extends AppCompatActivity {
     }
 
     public void login(User user){
+
+
         viewModel.login(user).observe(this, new Observer<Integer>() {
             @Override
             public void onChanged(Integer integer) {
                 if(integer==-2){
-                    Utils.showToast("Something went wrong.",LoginSignupActivity.this);
+                    Toast.makeText(LoginSignupActivity.this, "Check your internet connection", Toast.LENGTH_SHORT).show();
                 }else if(integer==-1){
-                    Utils.showToast("Invalid username/password",LoginSignupActivity.this);
+                    Toast.makeText(LoginSignupActivity.this, "Invalid username/password", Toast.LENGTH_SHORT).show();
                 }else if(integer==1){
                     moveToHomeScreen();
                 }
+
+                //enabling back submit button if login failed
+                if(integer<0)
+                    updateUIState(true);
             }
         });
     }
