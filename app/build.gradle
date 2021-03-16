@@ -63,6 +63,10 @@ dependencies {
 
     implementation 'id.zelory:compressor:2.1.0'
 
+    implementation ('io.socket:socket.io-client:2.0.0') {
+        exclude group: 'org.json', module: 'json'
+    }
+
 
 }
 repositories {

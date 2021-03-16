@@ -2,7 +2,9 @@ package com.example.rtc_client.utils;
 
 import android.app.Activity;
 import android.app.Application;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -12,10 +14,15 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.rtc_client.R;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.io.File;
 import java.io.IOException;
@@ -118,6 +125,26 @@ public class Utils {
         return colours[index];
     }
 
+    public static BottomSheetDialog makeDialogExpanded(BottomSheetDialog dialog){
+
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                BottomSheetDialog bottomSheetDialog=(BottomSheetDialog) dialogInterface;
+                FrameLayout bottomSheet = bottomSheetDialog.findViewById(com.google.android.material.R.id.design_bottom_sheet);
+
+                BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
+
+                ViewGroup.LayoutParams layoutParams=bottomSheet.getLayoutParams();
+                layoutParams.height= WindowManager.LayoutParams.MATCH_PARENT;
+                bottomSheet.setLayoutParams(layoutParams);
+
+                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+
+            }
+        });
+        return dialog;
+    }
 
 
 }

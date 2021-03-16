@@ -439,7 +439,7 @@ public class RoomActivity extends AppCompatActivity {
     }
 
     public void openChatBottomSheet(View view){
-        ChatBottomSheet bottomSheet=new ChatBottomSheet();
+        ChatBottomSheet bottomSheet=new ChatBottomSheet(room);
         bottomSheet.show(getSupportFragmentManager(),"chat");
     }
 }
