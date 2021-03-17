@@ -14,7 +14,10 @@ import com.example.rtc_client.data.models.Message;
 import com.example.rtc_client.utils.GlideApp;
 
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -31,6 +34,14 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     private onItemClickListener listener;
     public interface onItemClickListener{
         void onItemClick(int position);
+    }
+
+    public String timeStampToDate(long time){
+        Date date=new Date(time);
+        DateFormat dateFormat=new SimpleDateFormat("hh:mm a");
+
+        String dateString=dateFormat.format(date);
+        return dateString;
     }
 
     public void setOnItemClickListener(onItemClickListener listener){
@@ -74,12 +85,16 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         Message message=messages.get(position);
         holder.sender.setText("@"+message.getSender().getUsername());
         holder.text.setText(message.getText());
-        holder.time.setText(Long.toString(message.getTimestamp()));
+        holder.time.setText(timeStampToDate(message.getTimestamp()));
 
         if(message.getSender().getImage()!=null)
             GlideApp.with(context).load(message.getSender().getImage()).into(holder.image);
     }
 
+    public void addMessage(Message message){
+        messages.add(message);
+        notifyItemInserted(messages.size()-1);
+    }
     public int getItemViewType(int position) {
         return  position;
     }

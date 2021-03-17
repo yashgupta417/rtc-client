@@ -48,7 +48,9 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/toolbar"
         android:layout_above="@+id/bottom_parent"
-        android:background="@color/shade8"/>
+        android:background="@color/shade8"
+        tool:listitem="@layout/message_item"
+        tool:itemCount="15"/>
     <RelativeLayout
         android:id="@+id/bottom_parent"
         android:layout_width="match_parent"
@@ -77,5 +79,6 @@
             android:src="@drawable/chat_send"
             android:layout_alignParentRight="true"/>
     </RelativeLayout>
+
 
 </RelativeLayout>

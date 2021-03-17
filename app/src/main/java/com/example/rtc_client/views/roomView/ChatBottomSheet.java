@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.rtc_client.R;
 import com.example.rtc_client.data.models.Message;
 import com.example.rtc_client.data.models.Room;
+import com.example.rtc_client.data.models.User;
 import com.example.rtc_client.utils.LocalStorage;
 import com.example.rtc_client.utils.Utils;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
@@ -39,9 +40,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Member;
 import java.lang.reflect.Type;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import io.socket.client.Ack;
@@ -130,16 +133,23 @@ public class ChatBottomSheet extends BottomSheetDialogFragment {
     public void displayOldMessages(ArrayList<Message> messages){
         messageAdapter.messages=messages;
         messageAdapter.notifyDataSetChanged();
+        messageRecyclerView.scrollToPosition(messageAdapter.getItemCount()-1);
     }
 
 
     public Emitter.Listener onMessageReceived=new Emitter.Listener() {
         @Override
         public void call(Object... args) {
+            JSONObject jsonObject= (JSONObject) args[0];
+            Log.i("msg",jsonObject.toString());
+            Gson gson=new Gson();
+            Message newMessage=gson.fromJson(jsonObject.toString(),Message.class);
+
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-
+                    messageAdapter.addMessage(newMessage);
+                    messageRecyclerView.smoothScrollToPosition(messageAdapter.getItemCount()-1);
                 }
             });
         }
@@ -185,15 +195,30 @@ public class ChatBottomSheet extends BottomSheetDialogFragment {
             sendImageView.setAlpha(0.3f);
     }
 
+    public User getUser(String username){
+        ArrayList<User> members=(ArrayList<User>) room.getMembers();
+        for(int i=0;i<members.size();i++){
+            if(members.get(i).getUsername().equals(username))
+                return members.get(i);
+        }
+        return null;
+    }
     public void sendMessage(){
-        String message=textEditText.getText().toString().trim();
+        String text=textEditText.getText().toString().trim();
         String username= LocalStorage.getString("username",getActivity().getApplication());
         String address=room.getAddress();
+        long timeStamp= System.currentTimeMillis() / 1000L;
+
+
+        User user=getUser(username);
+        Message message=new Message(text,user,timeStamp);
+        messageAdapter.addMessage(message);
+        messageRecyclerView.smoothScrollToPosition(messageAdapter.getItemCount()-1);
 
         textEditText.setText("");
 
         //sending message
-        socket.emit("sendMessage", message, username, address, new Ack() {
+        socket.emit("sendMessage", text, username, address, new Ack() {
             @Override
             public void call(Object... args) {
                 JSONObject response = (JSONObject) args[0];
@@ -202,8 +227,9 @@ public class ChatBottomSheet extends BottomSheetDialogFragment {
                     @Override
                     public void run() {
                         try {
-                            if(response.getString("status").equals("sent"))
+                            if(response.getString("status").equals("sent")){
                                 Toast.makeText(getActivity(), "Message sent", Toast.LENGTH_SHORT).show();
+                            }
                         } catch (JSONException e){ }
                     }
                 });
