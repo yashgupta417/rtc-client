@@ -275,6 +275,7 @@ public class RoomDetailsBottomSheet extends BottomSheetDialogFragment {
         });
     }
     public void setImageView(String uri){
+        roomImage.setPadding(0,0,0,0);
         GlideApp.with(this).load(uri).into(roomImage);
     }
 

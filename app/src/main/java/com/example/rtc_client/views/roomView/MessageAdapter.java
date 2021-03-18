@@ -1,6 +1,7 @@
 package com.example.rtc_client.views.roomView;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -91,10 +92,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
             GlideApp.with(context).load(message.getSender().getImage()).into(holder.image);
     }
 
-    public void addMessage(Message message){
-        messages.add(message);
-        notifyItemInserted(messages.size()-1);
-    }
     public int getItemViewType(int position) {
         return  position;
     }

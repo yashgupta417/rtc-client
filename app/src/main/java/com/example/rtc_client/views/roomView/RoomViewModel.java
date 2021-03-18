@@ -8,19 +8,25 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import com.example.rtc_client.api.objects.AgoraTokenResponse;
+import com.example.rtc_client.data.models.Message;
 import com.example.rtc_client.data.models.Room;
 import com.example.rtc_client.data.models.User;
 import com.example.rtc_client.data.repositories.AgoraRepository;
 import com.example.rtc_client.data.repositories.RoomRepository;
 import com.example.rtc_client.data.repositories.UserRepository;
 
+import java.util.ArrayList;
+
 public class RoomViewModel extends AndroidViewModel {
     RoomRepository roomRepository;
     AgoraRepository agoraRepository;
     UserRepository userRepository;
 
+    public ArrayList<Message> messages;
+
     public RoomViewModel(@NonNull Application application) {
         super(application);
+        messages=new ArrayList<>();
         roomRepository=new RoomRepository(application);
         agoraRepository=new AgoraRepository(application);
         userRepository=new UserRepository(application);

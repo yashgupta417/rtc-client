@@ -21,6 +21,7 @@ import com.example.rtc_client.R;
 import com.example.rtc_client.data.models.AgoraUser;
 import com.example.rtc_client.data.models.Room;
 import com.example.rtc_client.data.models.User;
+import com.example.rtc_client.utils.GlideApp;
 import com.example.rtc_client.views.homeView.RoomsAdapter;
 
 import java.util.ArrayList;
@@ -55,6 +56,8 @@ public class CallParticipantAdapter extends RecyclerView.Adapter<CallParticipant
         //displaying username
         holder.username.setText(participant.getUser().getUsername());
 
+        GlideApp.with(context).load(participant.getUser().getImage()).into(holder.videoFallback);
+
         //setting audio mic
         if(participant.getAudioEnabled()){
             holder.mic.setImageResource(R.drawable.ic_baseline_mic_50);
@@ -81,7 +84,6 @@ public class CallParticipantAdapter extends RecyclerView.Adapter<CallParticipant
         }else{
             Log.i("msggg","video disabled");
             holder.videoParent.setVisibility(View.GONE);
-            Glide.with(context).load(R.drawable.room_image_placeholder).into(holder.videoFallback);
         }
 
 

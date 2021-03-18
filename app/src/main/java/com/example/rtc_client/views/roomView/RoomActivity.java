@@ -30,6 +30,7 @@ import android.widget.Toast;
 import com.example.rtc_client.R;
 import com.example.rtc_client.api.objects.AgoraTokenResponse;
 import com.example.rtc_client.data.models.AgoraUser;
+import com.example.rtc_client.data.models.Message;
 import com.example.rtc_client.data.models.Room;
 import com.example.rtc_client.data.models.User;
 import com.example.rtc_client.utils.GlideApp;
@@ -85,7 +86,6 @@ public class RoomActivity extends AppCompatActivity {
 
         viewModel= ViewModelProviders.of(this).get(RoomViewModel.class);
 
-        fetchRoomDetails();
 
         if(!havePermissions()){
             requestPermissions();
@@ -132,7 +132,7 @@ public class RoomActivity extends AppCompatActivity {
         viewModel.getRoom(address).observe(this, new Observer<Room>() {
             @Override
             public void onChanged(Room room) {
-                if(room!=null){
+                if(room!=null && room.getAddress()!=null){
                     RoomActivity.this.room=room;
                     start();
                 }
@@ -142,6 +142,7 @@ public class RoomActivity extends AppCompatActivity {
 
     public void start(){
         initUI();
+        initChat();
         initRTC();
         initRtcUI();
         fetchTokenAndJoinChannel();
@@ -330,6 +331,7 @@ public class RoomActivity extends AppCompatActivity {
 
         //decoding userAccount
         userAccount=userAccount.replaceAll("#","\"");
+        userAccount=userAccount.replaceAll(";","/");
         Log.i("msgggg",userAccount);
 
         //extracting user object from string
@@ -364,6 +366,7 @@ public class RoomActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         leaveRoom();
+        chatSocket.disconnect();
     }
 
     public void leaveRoom(){
@@ -438,8 +441,63 @@ public class RoomActivity extends AppCompatActivity {
         });
     }
 
-    public void openChatBottomSheet(View view){
-        ChatBottomSheet bottomSheet=new ChatBottomSheet(room);
-        bottomSheet.show(getSupportFragmentManager(),"chat");
+
+    public User getUser(String username){
+        ArrayList<User> members=(ArrayList<User>) room.getMembers();
+        for(int i=0;i<members.size();i++){
+            if(members.get(i).getUsername().equals(username))
+                return members.get(i);
+        }
+        return null;
     }
+
+    ChatBottomSheet chatBottomSheet;
+    public void openChatBottomSheet(View view){
+
+        //initializing chat sheet
+        chatBottomSheet=new ChatBottomSheet(room,getUser(username),chatSocket,viewModel.messages);
+
+        //showing chat sheet
+        chatBottomSheet.show(getSupportFragmentManager(),"chat");
+
+    }
+
+    /*******Chat Socket***********/
+
+    ChatSocket chatSocket;
+    public void initChat(){
+        Log.i("chat","init chat");
+
+        User user=getUser(username);
+
+        chatSocket=new ChatSocket(room,user,this);
+        chatSocket.setOnUpdateListener(new ChatSocket.UpdateListener() {
+            @Override
+            public void onOldMessages(ArrayList<Message> oldMessages) {
+                //storing old messages
+                viewModel.messages=oldMessages;
+
+            }
+
+            @Override
+            public void onNewMessage(Message message) {
+                viewModel.messages.add(message);
+
+                //showing new message in chat sheet if visible
+                if(chatBottomSheet!=null && chatBottomSheet.isVisible())
+                    chatBottomSheet.updateAdapter(viewModel.messages);
+
+            }
+
+            @Override
+            public void onUserMessage(Message message) {
+                viewModel.messages.add(message);
+
+                //showing new message in chat sheet if visible
+                if(chatBottomSheet!=null && chatBottomSheet.isVisible())
+                    chatBottomSheet.updateAdapter(viewModel.messages);
+            }
+        });
+    }
+
 }

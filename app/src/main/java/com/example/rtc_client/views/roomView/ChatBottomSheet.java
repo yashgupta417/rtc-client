@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -54,27 +55,37 @@ import io.socket.emitter.Emitter;
 
 public class ChatBottomSheet extends BottomSheetDialogFragment {
     Room room;
+    User user;
+    ChatSocket socket;
 
     RecyclerView messageRecyclerView;
     MessageAdapter messageAdapter;
     EditText textEditText;
     ImageView sendImageView,backImageView;
     TextView headerTextView;
+    ArrayList<Message> oldMessages;
 
-    public  ChatBottomSheet(Room room){
+
+    public  ChatBottomSheet(Room room,User user, ChatSocket socket,ArrayList<Message> oldMessages){
         this.room=room;
+        this.user=user;
+        this.socket=socket;
+        this.oldMessages=oldMessages;
     }
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v=inflater.inflate(R.layout.bottom_sheet_chat, container, false);
 
+
         initUI(v);
-        initSocket();
+
         return  v;
     }
 
     public void initUI(View v){
+        Log.i("chat","init sheet");
+
         messageRecyclerView=v.findViewById(R.id.message_recycler_view);
         messageRecyclerView.setHasFixedSize(true);
         messageRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
@@ -95,74 +106,31 @@ public class ChatBottomSheet extends BottomSheetDialogFragment {
         messageAdapter=new MessageAdapter(new ArrayList<>(),getContext());
         messageRecyclerView.setAdapter(messageAdapter);
 
+        updateAdapter(oldMessages);
+
         addMessageWatcher();
         addSendClickListener();
     }
 
-    private Socket socket;
-    private static String URI="https://agile-savannah-88050.herokuapp.com/";
+    public void updateAdapter(ArrayList<Message> messages){
+        Log.i("chat","messages in sheet"+Integer.toString(messages.size()));
 
-    public void initSocket(){
-        try {
-            socket=IO.socket(URI);
-        }catch (URISyntaxException e){}
-
-
-        socket.on("receiveMessage",onMessageReceived);
-
-        socket.connect();
-
-        socket.emit("joinRoom", room.getAddress(), new Ack() {
-            @Override
-            public void call(Object... args) {
-                JSONArray jsonArray= (JSONArray) args[0];
-                Gson gson=new Gson();
-                Type type = new TypeToken<List<Message>>(){}.getType();
-                ArrayList<Message> oldMessages=(ArrayList<Message>) gson.fromJson(jsonArray.toString(),type);
-
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                       displayOldMessages(oldMessages);
-                    }
-                });
-            }
-        });
-    }
-
-    public void displayOldMessages(ArrayList<Message> messages){
         messageAdapter.messages=messages;
-        messageAdapter.notifyDataSetChanged();
-        messageRecyclerView.scrollToPosition(messageAdapter.getItemCount()-1);
+        messageAdapter.notifyItemInserted(messages.size()-1);
+        messageRecyclerView.scrollToPosition(messages.size()-1);
     }
 
-
-    public Emitter.Listener onMessageReceived=new Emitter.Listener() {
-        @Override
-        public void call(Object... args) {
-            JSONObject jsonObject= (JSONObject) args[0];
-            Log.i("msg",jsonObject.toString());
-            Gson gson=new Gson();
-            Message newMessage=gson.fromJson(jsonObject.toString(),Message.class);
-
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    messageAdapter.addMessage(newMessage);
-                    messageRecyclerView.smoothScrollToPosition(messageAdapter.getItemCount()-1);
-                }
-            });
-        }
-    };
 
     public void addSendClickListener(){
         sendImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.i("chat","send clicked");
                 sendMessage();
             }
         });
     }
+
     public void addMessageWatcher(){
         textEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -195,55 +163,18 @@ public class ChatBottomSheet extends BottomSheetDialogFragment {
             sendImageView.setAlpha(0.3f);
     }
 
-    public User getUser(String username){
-        ArrayList<User> members=(ArrayList<User>) room.getMembers();
-        for(int i=0;i<members.size();i++){
-            if(members.get(i).getUsername().equals(username))
-                return members.get(i);
-        }
-        return null;
-    }
     public void sendMessage(){
+        Log.i("chat","sending message");
+        //wrapping message
         String text=textEditText.getText().toString().trim();
-        String username= LocalStorage.getString("username",getActivity().getApplication());
-        String address=room.getAddress();
         long timeStamp= System.currentTimeMillis() / 1000L;
-
-
-        User user=getUser(username);
         Message message=new Message(text,user,timeStamp);
-        messageAdapter.addMessage(message);
-        messageRecyclerView.smoothScrollToPosition(messageAdapter.getItemCount()-1);
 
+        //updating UI
         textEditText.setText("");
 
         //sending message
-        socket.emit("sendMessage", text, username, address, new Ack() {
-            @Override
-            public void call(Object... args) {
-                JSONObject response = (JSONObject) args[0];
-
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            if(response.getString("status").equals("sent")){
-                                Toast.makeText(getActivity(), "Message sent", Toast.LENGTH_SHORT).show();
-                            }
-                        } catch (JSONException e){ }
-                    }
-                });
-
-            }
-        });
-
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-
-        socket.disconnect();
+        socket.sendMessage(message);
     }
 
     @Override
