@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools"
+    app:cardBackgroundColor="@color/shade9"
+    app:cardCornerRadius="5dp"
+    app:cardElevation="5dp"
+    android:layout_marginHorizontal="45dp">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp">
+
+        <TextView
+            android:id="@+id/room_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tool:text="Room name"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="@color/white"
+            android:paddingLeft="15dp"
+            android:layout_marginTop="10dp"/>
+        <TextView
+            android:id="@+id/loading_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Joining Room..."
+            android:textSize="13sp"
+            android:layout_below="@id/room_name"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/white"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            />
+
+        <ImageView
+            android:id="@+id/close"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:src="@drawable/ic_baseline_close_100"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="10dp"/>
+        <pl.droidsonroids.gif.GifImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/load_shade9"
+            android:layout_below="@id/room_name"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/loading_text"/>
+
+
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

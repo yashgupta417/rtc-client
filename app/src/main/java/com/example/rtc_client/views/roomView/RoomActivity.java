@@ -11,10 +11,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
@@ -94,12 +97,45 @@ public class RoomActivity extends AppCompatActivity {
         }
     }
 
+    /***************Loading Dialog**********************/
+    Dialog loadingDialog;
+    public void showLoadingDialog(){
+        loadingDialog=new Dialog(this);
+        loadingDialog.setContentView(R.layout.dialog_room_init);
+        loadingDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        loadingDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        loadingDialog.setCancelable(false);
+
+        String name=getIntent().getStringExtra("name");
+        TextView roomName=loadingDialog.findViewById(R.id.room_name);
+        roomName.setText(name);
+
+        ImageView exit=loadingDialog.findViewById(R.id.close);
+        exit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
+        loadingDialog.show();
+    }
+
+    public void dismissLoadingDialog(){
+        loadingDialog.dismiss();
+    }
+
+    /***************************************************/
+
+
     public void showRoomNameOnTop(){
         String name=getIntent().getStringExtra("name");
 
         roomNameHeaderTextView=findViewById(R.id.header_room_name);
         roomNameHeaderTextView.setText(name);
     }
+
+
     public Boolean havePermissions(){
         for(String permission: REQUESTED_PERMISSIONS){
             if(ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED)
@@ -125,6 +161,10 @@ public class RoomActivity extends AppCompatActivity {
     }
 
     public void fetchRoomDetails(){
+
+        //showing loading dialog
+        showLoadingDialog();
+
         //debugging
         Log.i("room activity message","fetching room details");
 
@@ -142,7 +182,6 @@ public class RoomActivity extends AppCompatActivity {
 
     public void start(){
         initUI();
-        initChat();
         initRTC();
         initRtcUI();
         fetchTokenAndJoinChannel();
@@ -154,14 +193,11 @@ public class RoomActivity extends AppCompatActivity {
     ImageView audioButton, videoButton;
     String username;
     Integer uid;
-    GifImageView loader;
+
 
     public void initUI(){
         //debugging
         Log.i("room activity message","initUI");
-        //setting up loader
-        loader=findViewById(R.id.loader);
-        loader.setVisibility(View.VISIBLE);
 
         imageView=findViewById(R.id.header_room_image);
 
@@ -244,11 +280,20 @@ public class RoomActivity extends AppCompatActivity {
     private IRtcEngineEventHandler rtcEngineEventHandler=new IRtcEngineEventHandler() {
         @Override
         public void onJoinChannelSuccess(String channel, int uid, int elapsed) {
-            //debugging
-            Log.i("room activity message","channel joined");
-            RoomActivity.this.uid=uid;
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    //debugging
+                    Log.i("room activity message","channel joined");
+                    RoomActivity.this.uid=uid;
 
-            addVideo(uid,true);
+                    //init chat socket
+                    initChat();
+
+                    //add video
+                    addVideo(uid,true);
+                }
+            });
         }
 
         @Override
@@ -257,10 +302,8 @@ public class RoomActivity extends AppCompatActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    //debugging
-                    Log.i("room activity message","remote joined");
-                    Toast.makeText(RoomActivity.this, "remote joined" + Integer.toString(uid), Toast.LENGTH_SHORT).show();
 
+                    Toast.makeText(RoomActivity.this, "new user joined", Toast.LENGTH_SHORT).show();
                     addVideo(uid,false);
                 }
             });
@@ -323,6 +366,7 @@ public class RoomActivity extends AppCompatActivity {
         //looping until userAccount is not updated
         String userAccount;
         while(true) {
+            Log.i("while loop in add video","running");
             rtcEngine.getUserInfoByUid(uid,userInfo);
             userAccount = userInfo.userAccount;
             if(userAccount!=null)
@@ -347,8 +391,6 @@ public class RoomActivity extends AppCompatActivity {
         //adding video
         participantAdapter.addParticipant(agoraUser);
 
-        //hide loader if isMe=true
-        if(isMe) loader.setVisibility(View.GONE);
 
     }
 
@@ -365,13 +407,20 @@ public class RoomActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        leaveRoom();
-        chatSocket.disconnect();
+
+        leaveRoomAndDisconnectSocket();
     }
 
-    public void leaveRoom(){
-        rtcEngine.leaveChannel();
-        RtcEngine.destroy();
+    public void leaveRoomAndDisconnectSocket(){
+        //leave room
+        if(rtcEngine!=null) {
+            rtcEngine.leaveChannel();
+            RtcEngine.destroy();
+        }
+
+        //disconnect chat socket
+        if(chatSocket!=null)
+            chatSocket.disconnect();
     }
 
     @Override
@@ -380,7 +429,7 @@ public class RoomActivity extends AppCompatActivity {
     }
 
     public void exitRoom(View view){
-        leaveRoom();
+        //on destroy will handle leaving room and disconnecting socket logic
         finish();
     }
 
@@ -477,6 +526,9 @@ public class RoomActivity extends AppCompatActivity {
                 //storing old messages
                 viewModel.messages=oldMessages;
 
+                //dismiss loader
+                //this marks the ending of room init work
+                dismissLoadingDialog();
             }
 
             @Override
@@ -499,5 +551,7 @@ public class RoomActivity extends AppCompatActivity {
             }
         });
     }
+
+    /**********************************/
 
 }
