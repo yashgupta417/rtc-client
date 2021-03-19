@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.rtc_client.R;
@@ -33,6 +34,7 @@ public class HomeActivity extends AppCompatActivity {
 
     HomeViewModel viewModel;
     GifImageView loader;
+    TextView noResultTextView;
     RecyclerView roomsRecyclerView;
     RoomsAdapter roomsAdapter;
 
@@ -41,17 +43,18 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-
-        loader=findViewById(R.id.loader);
-        initRecylerView();
-
-
-        viewModel= ViewModelProviders.of(this).get(HomeViewModel.class);
-
+        initUI();
         fetchAndShowUserRooms(true);
 
     }
 
+    public void initUI(){
+        viewModel= ViewModelProviders.of(this).get(HomeViewModel.class);
+
+        loader=findViewById(R.id.loader);
+        noResultTextView=findViewById(R.id.no_result);
+        initRecylerView();
+    }
     public void initRecylerView(){
         //rooms recycler view
         roomsRecyclerView=findViewById(R.id.rooms_recycler_view);
@@ -90,6 +93,14 @@ public class HomeActivity extends AppCompatActivity {
             public void onChanged(ArrayList<Room> rooms) {
                 if(rooms!=null) {
                     loader.setVisibility(View.GONE);
+
+                    //handling if no rooms
+                    if(rooms.size()==0){
+                        noResultTextView.setVisibility(View.VISIBLE);
+                    }else{
+                        noResultTextView.setVisibility(View.GONE);
+                    }
+
                     showUserRooms(rooms);
 
                     viewModel.getRooms(username).removeObserver(this);
