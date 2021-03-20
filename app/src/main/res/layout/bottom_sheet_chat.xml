@@ -50,7 +50,43 @@
         android:layout_above="@+id/bottom_parent"
         android:background="@color/shade8"
         tool:listitem="@layout/message_item"
-        tool:itemCount="15"/>
+        tool:itemCount="3"/>
+
+    <RelativeLayout
+        android:id="@+id/no_chats_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        tool:visibility="visible">
+        <ImageView
+            android:id="@+id/no_chats_image"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/ic_baseline_no_chats_100"/>
+        <TextView
+            android:id="@+id/no_chats_text_1"
+            android:layout_below="@id/no_chats_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/shade5"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_centerHorizontal="true"
+            android:text="No chats yet."/>
+
+        <TextView
+            android:id="@+id/no_chats_text_2"
+            android:layout_below="@id/no_chats_text_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/shade5"
+            android:textSize="13sp"
+            android:layout_centerHorizontal="true"
+            android:text="Start the conversation now."/>
+    </RelativeLayout>
+
     <RelativeLayout
         android:id="@+id/bottom_parent"
         android:layout_width="match_parent"
@@ -64,6 +100,7 @@
             android:layout_toLeftOf="@+id/send"
             android:hint="Type message here..."
             tool:text="Hello "
+            android:textSize="13sp"
             android:paddingLeft="15dp"
             android:textColorHint="@color/shade8"
             android:backgroundTint="@android:color/transparent"

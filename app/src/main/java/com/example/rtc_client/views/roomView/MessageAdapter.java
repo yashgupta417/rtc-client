@@ -88,8 +88,10 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         holder.text.setText(message.getText());
         holder.time.setText(timeStampToDate(message.getTimestamp()));
 
-        if(message.getSender().getImage()!=null)
+        if(message.getSender().getImage()!=null) {
+            Log.i("debug",message.getSender().getImage());
             GlideApp.with(context).load(message.getSender().getImage()).into(holder.image);
+        }
     }
 
     public int getItemViewType(int position) {

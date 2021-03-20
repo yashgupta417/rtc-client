@@ -20,6 +20,8 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
 import com.example.rtc_client.R;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -134,6 +136,7 @@ public class Utils {
                 FrameLayout bottomSheet = bottomSheetDialog.findViewById(com.google.android.material.R.id.design_bottom_sheet);
 
                 BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
+                
 
                 ViewGroup.LayoutParams layoutParams=bottomSheet.getLayoutParams();
                 layoutParams.height= WindowManager.LayoutParams.MATCH_PARENT;

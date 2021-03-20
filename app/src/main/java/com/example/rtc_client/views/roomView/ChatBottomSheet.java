@@ -13,6 +13,7 @@ import android.view.ViewTreeObserver;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -64,6 +65,7 @@ public class ChatBottomSheet extends BottomSheetDialogFragment {
     ImageView sendImageView,backImageView;
     TextView headerTextView;
     ArrayList<Message> oldMessages;
+    RelativeLayout noChatParent;
 
 
     public  ChatBottomSheet(Room room,User user, ChatSocket socket,ArrayList<Message> oldMessages){
@@ -94,6 +96,7 @@ public class ChatBottomSheet extends BottomSheetDialogFragment {
         sendImageView=v.findViewById(R.id.send);
         headerTextView=v.findViewById(R.id.chat_header);
         backImageView=v.findViewById(R.id.back);
+        noChatParent=v.findViewById(R.id.no_chats_parent);
 
         backImageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,8 +115,19 @@ public class ChatBottomSheet extends BottomSheetDialogFragment {
         addSendClickListener();
     }
 
+    public void updateNoChatUI(Integer count){
+        if(count==0)
+            noChatParent.setVisibility(View.VISIBLE);
+        else
+            noChatParent.setVisibility(View.GONE);
+    }
+
     public void updateAdapter(ArrayList<Message> messages){
+
         Log.i("chat","messages in sheet"+Integer.toString(messages.size()));
+
+        //handling no chats case
+        updateNoChatUI(messages.size());
 
         messageAdapter.messages=messages;
         messageAdapter.notifyItemInserted(messages.size()-1);
@@ -180,6 +194,7 @@ public class ChatBottomSheet extends BottomSheetDialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         return Utils.makeDialogExpanded(new BottomSheetDialog(requireContext(),getTheme()));
+
     }
 
 
