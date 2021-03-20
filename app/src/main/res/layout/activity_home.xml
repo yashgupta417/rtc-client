@@ -74,15 +74,15 @@
                     android:layout_width="match_parent"
                     android:onClick="showCreateRoomLayout"
                     android:layout_height="wrap_content">
+
                     <de.hdodenhof.circleimageview.CircleImageView
-                        android:padding="2dp"
                         android:id="@+id/create_img"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_alignParentTop="true"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
                         android:layout_alignParentLeft="true"
+                        android:layout_alignParentTop="true"
                         android:layout_marginLeft="15dp"
-                        android:src="@drawable/create"/>
+                        android:src="@drawable/create_room_icon" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -91,7 +91,7 @@
                         android:textColor="@color/white"
                         android:textSize="16sp"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="15dp"/>
+                        android:layout_marginLeft="10dp"/>
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -100,14 +100,13 @@
                     android:onClick="showJoinRoomLayout"
                     android:layout_marginTop="5dp">
                     <de.hdodenhof.circleimageview.CircleImageView
-                        android:padding="2dp"
                         android:id="@+id/join_img"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
                         android:layout_alignParentTop="true"
                         android:layout_alignParentLeft="true"
                         android:layout_marginLeft="15dp"
-                        android:src="@drawable/join"/>
+                        android:src="@drawable/join_room_icon"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -117,7 +116,7 @@
                         android:textColor="@color/white"
                         android:textSize="16sp"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="15dp"/>
+                        android:layout_marginLeft="10dp"/>
                 </RelativeLayout>
 
             </LinearLayout>
