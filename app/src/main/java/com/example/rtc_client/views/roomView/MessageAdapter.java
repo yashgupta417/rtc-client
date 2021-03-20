@@ -1,6 +1,7 @@
 package com.example.rtc_client.views.roomView;
 
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,22 +14,27 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.rtc_client.R;
 import com.example.rtc_client.data.models.Message;
 import com.example.rtc_client.utils.GlideApp;
+import com.example.rtc_client.utils.Utils;
 
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageViewHolder>{
     public ArrayList<Message> messages;
     public Context context;
+    public Map<String,Integer> colourMap;
 
     public MessageAdapter(ArrayList<Message> messages, Context context) {
         this.messages = messages;
         this.context = context;
+        colourMap=new HashMap<>();
     }
 
 
@@ -50,11 +56,12 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     }
 
     public static class MessageViewHolder extends RecyclerView.ViewHolder{
-        CircleImageView image;
+        CircleImageView image,imageBG;
         TextView sender, text, time;
         public MessageViewHolder(@NonNull View itemView, final onItemClickListener listener) {
             super(itemView);
             image=itemView.findViewById(R.id.image);
+            imageBG=itemView.findViewById(R.id.image_bg);
             text=itemView.findViewById(R.id.text);
             sender=itemView.findViewById(R.id.sender);
             time=itemView.findViewById(R.id.time);
@@ -89,9 +96,18 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         holder.time.setText(timeStampToDate(message.getTimestamp()));
 
         if(message.getSender().getImage()!=null) {
-            Log.i("debug",message.getSender().getImage());
+            holder.image.setPadding(0,0,0,0);
             GlideApp.with(context).load(message.getSender().getImage()).into(holder.image);
+        }else{
+            //assigning a colour to username if null
+            String key=message.getSender().getUsername();
+            if(colourMap.get(key)==null)
+                colourMap.put(key,Utils.getRandomColour());
+
+            ColorDrawable colorDrawable=new ColorDrawable(colourMap.get(key));
+            GlideApp.with(context).load(colorDrawable).into(holder.imageBG);
         }
+
     }
 
     public int getItemViewType(int position) {

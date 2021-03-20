@@ -122,7 +122,7 @@ public class ChatSocket {
                     public void run() {
                         try {
                             if(response.getString("status").equals("sent")){
-                                Toast.makeText(activity, "Message sent", Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(activity, "Message sent", Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e){ }
                     }
