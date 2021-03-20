@@ -56,7 +56,9 @@ public class CallParticipantAdapter extends RecyclerView.Adapter<CallParticipant
         //displaying username
         holder.username.setText(participant.getUser().getUsername());
 
-        GlideApp.with(context).load(participant.getUser().getImage()).into(holder.videoFallback);
+        //displaying image
+        if(participant.getUser().getImage()!=null)
+            GlideApp.with(context).load(participant.getUser().getImage()).into(holder.videoFallback);
 
         //setting audio mic
         if(participant.getAudioEnabled()){
