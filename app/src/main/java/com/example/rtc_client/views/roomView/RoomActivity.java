@@ -52,6 +52,8 @@ import io.agora.rtc.video.VideoCanvas;
 import io.agora.rtc.video.VideoEncoderConfiguration;
 import pl.droidsonroids.gif.GifImageView;
 
+import static io.agora.rtc.Constants.AUDIO_PROFILE_MUSIC_HIGH_QUALITY_STEREO;
+import static io.agora.rtc.Constants.AUDIO_SCENARIO_MEETING;
 import static io.agora.rtc.Constants.REMOTE_AUDIO_STATE_DECODING;
 import static io.agora.rtc.Constants.REMOTE_AUDIO_STATE_STARTING;
 import static io.agora.rtc.Constants.REMOTE_AUDIO_STATE_STOPPED;
@@ -233,6 +235,10 @@ public class RoomActivity extends AppCompatActivity {
                 VideoEncoderConfiguration.ORIENTATION_MODE.ORIENTATION_MODE_FIXED_PORTRAIT);
 
         rtcEngine.setVideoEncoderConfiguration(videoEncoderConfiguration);
+
+        //setting audio profile
+        rtcEngine.setAudioProfile(AUDIO_PROFILE_MUSIC_HIGH_QUALITY_STEREO,AUDIO_SCENARIO_MEETING);
+
 
     }
 
