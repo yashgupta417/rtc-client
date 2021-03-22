@@ -98,6 +98,10 @@ public class RoomActivity extends AppCompatActivity {
             fetchRoomDetails();
         }
     }
+    /*Steps
+     *takePermission---->fetchRoomDetails--->initChat---->initRTC---->joinChannel
+     */
+
 
     /***************Loading Dialog**********************/
     Dialog loadingDialog;
@@ -163,6 +167,8 @@ public class RoomActivity extends AppCompatActivity {
     }
 
     public void fetchRoomDetails(){
+        //init UI
+        initUI();
 
         //showing loading dialog
         showLoadingDialog();
@@ -176,17 +182,12 @@ public class RoomActivity extends AppCompatActivity {
             public void onChanged(Room room) {
                 if(room!=null && room.getAddress()!=null){
                     RoomActivity.this.room=room;
-                    start();
+
+                    //join chat
+                    initChat();
                 }
             }
         });
-    }
-
-    public void start(){
-        initUI();
-        initRTC();
-        initRtcUI();
-        fetchTokenAndJoinChannel();
     }
 
 
@@ -211,6 +212,10 @@ public class RoomActivity extends AppCompatActivity {
 
         //setting viewModel
         viewModel=ViewModelProviders.of(this).get(RoomViewModel.class);
+
+        participantRecyclerView=findViewById(R.id.participants_recycler_view);
+        participantRecyclerView.setLayoutManager(new GridLayoutManager(this,2));
+        participantRecyclerView.setHasFixedSize(true);
 
     }
 
@@ -239,22 +244,15 @@ public class RoomActivity extends AppCompatActivity {
         //setting audio profile
         rtcEngine.setAudioProfile(AUDIO_PROFILE_MUSIC_HIGH_QUALITY_STEREO,AUDIO_SCENARIO_MEETING);
 
-
-    }
-
-    public void initRtcUI(){
-        //debugging
-        Log.i("room activity message","initRTCUI");
-
-
-        participantRecyclerView=findViewById(R.id.participants_recycler_view);
-        participantRecyclerView.setLayoutManager(new GridLayoutManager(this,2));
-        participantRecyclerView.setHasFixedSize(true);
-
+        //adding adapter
         participantAdapter=new CallParticipantAdapter(rtcEngine,this);
         participantRecyclerView.setAdapter(participantAdapter);
-    }
 
+        //fetch token and join channel
+        fetchTokenAndJoinChannel();
+
+
+    }
 
     public void fetchTokenAndJoinChannel(){
         //debugging
@@ -293,11 +291,12 @@ public class RoomActivity extends AppCompatActivity {
                     Log.i("room activity message","channel joined");
                     RoomActivity.this.uid=uid;
 
-                    //init chat socket
-                    initChat();
-
                     //add video
                     addVideo(uid,true);
+
+                    //dismiss loader
+                    //this marks the ending of room init work
+                    dismissLoadingDialog();
                 }
             });
         }
@@ -532,9 +531,9 @@ public class RoomActivity extends AppCompatActivity {
                 //storing old messages
                 viewModel.messages=oldMessages;
 
-                //dismiss loader
-                //this marks the ending of room init work
-                dismissLoadingDialog();
+
+                //init rtc
+                initRTC();
             }
 
             @Override
