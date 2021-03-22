@@ -9,13 +9,14 @@
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+
         android:theme="@style/AppTheme">
-        <activity android:name=".views.profileView.UpdateProfileActivity"></activity>
-        <activity android:name=".views.SplashView.SplashActivity" />
-        <activity android:name=".views.roomView.RoomActivity" />
-        <activity android:name=".views.profileView.ProfileActivity" />
-        <activity android:name=".views.homeView.HomeActivity" />
-        <activity android:name=".views.loginSignupView.LoginSignupActivity">
+        <activity android:name=".views.profileView.UpdateProfileActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".views.SplashView.SplashActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".views.roomView.RoomActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".views.profileView.ProfileActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".views.homeView.HomeActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".views.loginSignupView.LoginSignupActivity" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

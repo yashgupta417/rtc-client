@@ -15,15 +15,21 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.2">
+        app:layout_constraintVertical_bias="0.11">
+        <ImageView
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/ic_round_whatshot_50"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Black Lobby"
+            android:text="@string/app_name"
             android:textSize="22sp"
             android:textStyle="bold"
             android:textAllCaps="true"
             android:letterSpacing="0.4"
+            android:layout_gravity="center_vertical"
             android:textColor="@color/shade3"/>
     </LinearLayout>
     <LinearLayout
