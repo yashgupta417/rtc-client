@@ -79,6 +79,7 @@ public class RoomActivity extends AppCompatActivity {
     TextView roomNameHeaderTextView;
     CircleImageView imageView;
     Room room;
+    User user;
 
     RoomViewModel viewModel;
 
@@ -95,7 +96,7 @@ public class RoomActivity extends AppCompatActivity {
         if(!havePermissions()){
             requestPermissions();
         }else{
-            fetchRoomDetails();
+            start();
         }
     }
     /*Steps
@@ -161,38 +162,24 @@ public class RoomActivity extends AppCompatActivity {
                 Toast.makeText(this, "Can't proceed without permissions.", Toast.LENGTH_SHORT).show();
                 finish();
             }else{
-                fetchRoomDetails();
+                start();
             }
         }
     }
 
-    public void fetchRoomDetails(){
+    public void start(){
         //init UI
         initUI();
 
         //showing loading dialog
         showLoadingDialog();
 
-        //debugging
-        Log.i("room activity message","fetching room details");
-
-        String address=getIntent().getStringExtra("address");
-        viewModel.getRoom(address).observe(this, new Observer<Room>() {
-            @Override
-            public void onChanged(Room room) {
-                if(room!=null && room.getAddress()!=null){
-                    RoomActivity.this.room=room;
-
-                    //join chat
-                    initChat();
-                }
-            }
-        });
+        //join chat
+        initChat();
     }
 
 
-    RelativeLayout roomDetailsParent;
-    ImageView toggleDetailsImageView;
+
     ImageView audioButton, videoButton;
     String username;
     Integer uid;
@@ -248,31 +235,14 @@ public class RoomActivity extends AppCompatActivity {
         participantAdapter=new CallParticipantAdapter(rtcEngine,this);
         participantRecyclerView.setAdapter(participantAdapter);
 
-        //fetch token and join channel
-        fetchTokenAndJoinChannel();
+        //join channel
+        joinChannel();
 
 
     }
 
-    public void fetchTokenAndJoinChannel(){
-        //debugging
-        Log.i("room activity message","Fetching token");
-
-        //fetch token from server
-        viewModel.getAgoraToken(username,room.getName()).observe(this, new Observer<AgoraTokenResponse>() {
-            @Override
-            public void onChanged(AgoraTokenResponse response) {
-                if(response!=null){
-                    //debugging
-                    Log.i("room activity message","token: "+ response.getToken());
-
-                    joinChannel(response.getToken(),response.getUserString());
-                }
-            }
-        });
-    }
-
-    public void joinChannel(String token,String userString){
+    String token, userString;
+    public void joinChannel(){
         //debugging
         Log.i("room activity message","Joining channel");
 
@@ -522,18 +492,27 @@ public class RoomActivity extends AppCompatActivity {
     public void initChat(){
         Log.i("chat","init chat");
 
-        User user=getUser(username);
 
-        chatSocket=new ChatSocket(room,user,this);
+        String address=getIntent().getStringExtra("address");
+        chatSocket=new ChatSocket(address,username,this);
         chatSocket.setOnUpdateListener(new ChatSocket.UpdateListener() {
+
+            @Override
+            public void onSocketConnected(Room room, String token, String userString) {
+                RoomActivity.this.room=room;
+                RoomActivity.this.token=token;
+                RoomActivity.this.userString=userString;
+
+                RoomActivity.this.user=getUser(username);
+
+                //init rtc
+                initRTC();
+            }
+
             @Override
             public void onOldMessages(ArrayList<Message> oldMessages) {
                 //storing old messages
                 viewModel.messages=oldMessages;
-
-
-                //init rtc
-                initRTC();
             }
 
             @Override

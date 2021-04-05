@@ -27,17 +27,17 @@ import io.socket.emitter.Emitter;
 
 public class ChatSocket {
 
-    Room room;
-    User user;
+    String address;
+    String username;
     Activity activity;
 
 
     private Socket socket;
     private static String URI="https://agile-savannah-88050.herokuapp.com/";
 
-    public ChatSocket(Room room, User user, Activity activity) {
-        this.room = room;
-        this.user = user;
+    public ChatSocket(String address,String username, Activity activity) {
+        this.address=address;
+        this.username=username;
         this.activity = activity;
 
         init();
@@ -45,6 +45,7 @@ public class ChatSocket {
 
     UpdateListener listener;
     public interface UpdateListener{
+        void onSocketConnected(Room room, String token, String userString);
         void onOldMessages(ArrayList<Message> oldMessages);
         void onNewMessage(Message message);
         void onUserMessage(Message message);
@@ -65,17 +66,30 @@ public class ChatSocket {
 
         socket.connect();
 
-        socket.emit("joinRoom", room.getAddress(), new Ack() {
+        socket.emit("joinRoom", address,username, new Ack() {
             @Override
             public void call(Object... args) {
+
+                //messages
                 JSONArray jsonArray= (JSONArray) args[0];
                 Gson gson=new Gson();
                 Type type = new TypeToken<List<Message>>(){}.getType();
                 ArrayList<Message> oldMessages=(ArrayList<Message>) gson.fromJson(jsonArray.toString(),type);
 
+                //room
+                JSONObject roomObject=(JSONObject) args[1];
+                Room room=gson.fromJson(roomObject.toString(),Room.class);
+
+                //token
+                String token= (String) args[2];
+
+                //userString
+                String userString= (String) args[3];
+
                 activity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        listener.onSocketConnected(room,token,userString);
                         listener.onOldMessages(oldMessages);
                     }
                 });
@@ -107,7 +121,7 @@ public class ChatSocket {
         Log.i("chat","sending message using socket.io");
 
         String username= LocalStorage.getString("username",activity.getApplication());
-        String address=room.getAddress();
+
 
         listener.onUserMessage(message);
 
