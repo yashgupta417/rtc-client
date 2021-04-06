@@ -47,22 +47,28 @@ public class RoomRepository {
         return result;
     }
 
-    public LiveData<Integer> joinRoom(String address,String username){
-        MutableLiveData<Integer> result=new MutableLiveData<>();
+    public LiveData<String> joinRoom(String address,String username){
+        MutableLiveData<String> result=new MutableLiveData<>();
         Call<Room> call=RetrofitClient.getInstance(application).create(RoomRoutes.class).joinRoom(address,username);
         call.enqueue(new Callback<Room>() {
             @Override
             public void onResponse(Call<Room> call, Response<Room> response) {
                 if(!response.isSuccessful()){
-                    result.setValue(-1);
+                    try {
+                        String error=response.errorBody().string();
+                        result.setValue(error);
+                    }catch (Exception e){
+                        Log.i("msg",e.getLocalizedMessage());
+                    }
+
                     return;
                 }
-                result.setValue(1);
+                result.setValue("1");
             }
 
             @Override
             public void onFailure(Call<Room> call, Throwable t) {
-                result.setValue(-1);
+                result.setValue("-1");
             }
         });
         return result;

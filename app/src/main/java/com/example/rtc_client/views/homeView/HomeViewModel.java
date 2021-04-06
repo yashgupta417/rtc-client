@@ -30,7 +30,7 @@ public class HomeViewModel extends AndroidViewModel {
         return userRepository.getAllRooms(username);
     }
 
-    public LiveData<Integer> joinRoom(String address, String username){
+    public LiveData<String> joinRoom(String address, String username){
         return roomRepository.joinRoom(address,username);
     }
 }

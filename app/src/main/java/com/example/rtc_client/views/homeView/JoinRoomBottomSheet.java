@@ -76,17 +76,25 @@ public class JoinRoomBottomSheet extends BottomSheetDialogFragment {
         updateButtonState(false);
 
         String username= LocalStorage.getString("username",getActivity().getApplication());
-        viewModel.joinRoom(address,username).observe(this, new Observer<Integer>() {
+        viewModel.joinRoom(address,username).observe(this, new Observer<String>() {
             @Override
-            public void onChanged(Integer integer) {
-                if(integer==1){
+            public void onChanged(String string) {
+                if(string==null)
+                    return;
+
+                if(string.equals("1")){
                     listener.onRoomJoin();
 
                     //dismiss
                     dismiss();
-                }else if(integer==-1){
+                }else if(string.equals("-1")){
                     //show fail message
                     Toast.makeText(getActivity(), "Something went wrong", Toast.LENGTH_SHORT).show();
+
+                    //enable button
+                    updateButtonState(true);
+                }else{
+                    Toast.makeText(getActivity(), string, Toast.LENGTH_SHORT).show();
 
                     //enable button
                     updateButtonState(true);
