@@ -74,6 +74,7 @@ public class ChatSocket {
                 JSONArray jsonArray= (JSONArray) args[0];
                 Gson gson=new Gson();
                 Type type = new TypeToken<List<Message>>(){}.getType();
+                Log.i("chat",jsonArray.toString());
                 ArrayList<Message> oldMessages=(ArrayList<Message>) gson.fromJson(jsonArray.toString(),type);
 
                 //room

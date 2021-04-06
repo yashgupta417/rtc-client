@@ -479,7 +479,7 @@ public class RoomActivity extends AppCompatActivity {
     public void openChatBottomSheet(View view){
 
         //initializing chat sheet
-        chatBottomSheet=new ChatBottomSheet(room,getUser(username),chatSocket,viewModel.messages);
+        chatBottomSheet=new ChatBottomSheet(room,getUser(username),chatSocket,messages);
 
         //showing chat sheet
         chatBottomSheet.show(getSupportFragmentManager(),"chat");
@@ -489,6 +489,7 @@ public class RoomActivity extends AppCompatActivity {
     /*******Chat Socket***********/
 
     ChatSocket chatSocket;
+    ArrayList<Message> messages;
     public void initChat(){
         Log.i("chat","init chat");
 
@@ -512,26 +513,28 @@ public class RoomActivity extends AppCompatActivity {
             @Override
             public void onOldMessages(ArrayList<Message> oldMessages) {
                 //storing old messages
-                viewModel.messages=oldMessages;
+                messages=oldMessages;
+
+                Log.i("room",Integer.toString(messages.size()));
             }
 
             @Override
             public void onNewMessage(Message message) {
-                viewModel.messages.add(message);
+                messages.add(message);
 
                 //showing new message in chat sheet if visible
                 if(chatBottomSheet!=null && chatBottomSheet.isVisible())
-                    chatBottomSheet.updateAdapter(viewModel.messages);
+                    chatBottomSheet.updateAdapter(messages);
 
             }
 
             @Override
             public void onUserMessage(Message message) {
-                viewModel.messages.add(message);
+                messages.add(message);
 
                 //showing new message in chat sheet if visible
                 if(chatBottomSheet!=null && chatBottomSheet.isVisible())
-                    chatBottomSheet.updateAdapter(viewModel.messages);
+                    chatBottomSheet.updateAdapter(messages);
             }
         });
     }

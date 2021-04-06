@@ -44,10 +44,14 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     }
 
     public String timeStampToDate(long time){
+        //Log.i("chat",Long.toString(time));
+
         Date date=new Date(time);
         DateFormat dateFormat=new SimpleDateFormat("hh:mm a");
 
         String dateString=dateFormat.format(date);
+
+        //Log.i("chat",dateString);
         return dateString;
     }
 
@@ -91,19 +95,24 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     @Override
     public void onBindViewHolder(@NonNull MessageViewHolder holder, int position) {
         Message message=messages.get(position);
+
+        //assigning a colour to username if null
+        String key=message.getSender().getUsername();
+        if(colourMap.get(key)==null)
+            colourMap.put(key,Utils.getRandomColour());
+
         holder.sender.setText("@"+message.getSender().getUsername());
+        holder.sender.setTextColor(colourMap.get(key));
+
         holder.text.setText(message.getText());
+
         holder.time.setText(timeStampToDate(message.getTimestamp()));
+
 
         if(message.getSender().getImage()!=null) {
             holder.image.setPadding(0,0,0,0);
             GlideApp.with(context).load(message.getSender().getImage()).into(holder.image);
         }else{
-            //assigning a colour to username if null
-            String key=message.getSender().getUsername();
-            if(colourMap.get(key)==null)
-                colourMap.put(key,Utils.getRandomColour());
-
             ColorDrawable colorDrawable=new ColorDrawable(colourMap.get(key));
             GlideApp.with(context).load(colorDrawable).into(holder.imageBG);
         }

@@ -181,8 +181,9 @@ public class ChatBottomSheet extends BottomSheetDialogFragment {
         Log.i("chat","sending message");
         //wrapping message
         String text=textEditText.getText().toString().trim();
-        long timeStamp= System.currentTimeMillis() / 1000L;
+        long timeStamp= System.currentTimeMillis();
         Message message=new Message(text,user,timeStamp);
+        //Log.i("chat",Long.toString(timeStamp));
 
         //updating UI
         textEditText.setText("");
