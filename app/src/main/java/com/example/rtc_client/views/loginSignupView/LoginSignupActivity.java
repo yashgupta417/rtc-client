@@ -120,11 +120,14 @@ public class LoginSignupActivity extends AppCompatActivity {
     public void updateUIState(boolean isEnabled){
         if(isEnabled){
             submitButton.setAlpha(1f);
-            submitButton.setEnabled(isEnabled);
+            alternateButton.setAlpha(1f);
         }else{
-            submitButton.setEnabled(isEnabled);
             submitButton.setAlpha(0.3f);
+            alternateButton.setAlpha(0.3f);
         }
+
+        submitButton.setEnabled(isEnabled);
+        alternateButton.setEnabled(isEnabled);
     }
     public void signUp(){
         //disabling submit button
