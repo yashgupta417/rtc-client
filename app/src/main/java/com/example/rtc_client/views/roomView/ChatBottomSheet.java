@@ -48,6 +48,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import io.socket.client.Ack;
 import io.socket.client.IO;
@@ -109,7 +110,7 @@ public class ChatBottomSheet extends BottomSheetDialogFragment {
         messageAdapter=new MessageAdapter(new ArrayList<>(),getContext());
         messageRecyclerView.setAdapter(messageAdapter);
 
-        updateAdapter(oldMessages);
+        updateMessages(oldMessages);
 
         addMessageWatcher();
         addSendClickListener();
@@ -122,7 +123,7 @@ public class ChatBottomSheet extends BottomSheetDialogFragment {
             noChatParent.setVisibility(View.GONE);
     }
 
-    public void updateAdapter(ArrayList<Message> messages){
+    public void updateMessages(ArrayList<Message> messages){
 
         Log.i("chat","messages in sheet"+Integer.toString(messages.size()));
 
@@ -132,6 +133,15 @@ public class ChatBottomSheet extends BottomSheetDialogFragment {
         messageAdapter.messages=messages;
         messageAdapter.notifyItemInserted(messages.size()-1);
         messageRecyclerView.scrollToPosition(messages.size()-1);
+    }
+
+    public void updateMessageStatus(ArrayList<Message> messages,int pos){
+        //handling no chats case
+        updateNoChatUI(messages.size());
+
+        messageAdapter.messages=messages;
+
+        messageAdapter.notifyItemChanged(pos);
     }
 
 
@@ -182,7 +192,10 @@ public class ChatBottomSheet extends BottomSheetDialogFragment {
         //wrapping message
         String text=textEditText.getText().toString().trim();
         long timeStamp= System.currentTimeMillis();
-        Message message=new Message(text,user,timeStamp);
+
+        String uniqueLocalId = UUID.randomUUID().toString();
+
+        Message message=new Message(uniqueLocalId, text,user,timeStamp,false);
         //Log.i("chat",Long.toString(timeStamp));
 
         //updating UI

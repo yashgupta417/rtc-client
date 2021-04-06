@@ -28,6 +28,7 @@
         android:src="@drawable/ic_baseline_person_100"/>
 
     <RelativeLayout
+        android:id="@+id/details_parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/image"

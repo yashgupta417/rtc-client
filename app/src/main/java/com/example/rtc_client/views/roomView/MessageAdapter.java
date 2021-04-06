@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -62,6 +63,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     public static class MessageViewHolder extends RecyclerView.ViewHolder{
         CircleImageView image,imageBG;
         TextView sender, text, time;
+        RelativeLayout detailsParent;
         public MessageViewHolder(@NonNull View itemView, final onItemClickListener listener) {
             super(itemView);
             image=itemView.findViewById(R.id.image);
@@ -69,6 +71,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
             text=itemView.findViewById(R.id.text);
             sender=itemView.findViewById(R.id.sender);
             time=itemView.findViewById(R.id.time);
+            detailsParent=itemView.findViewById(R.id.details_parent);
 
             itemView.setOnClickListener(new View.OnClickListener(){
                 @Override
@@ -95,6 +98,12 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     @Override
     public void onBindViewHolder(@NonNull MessageViewHolder holder, int position) {
         Message message=messages.get(position);
+
+        if(message.isSent()){
+            holder.detailsParent.setAlpha(1f);
+        }else{
+            holder.detailsParent.setAlpha(0.4f);
+        }
 
         //assigning a colour to username if null
         String key=message.getSender().getUsername();

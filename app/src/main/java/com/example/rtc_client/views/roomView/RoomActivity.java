@@ -524,7 +524,7 @@ public class RoomActivity extends AppCompatActivity {
 
                 //showing new message in chat sheet if visible
                 if(chatBottomSheet!=null && chatBottomSheet.isVisible())
-                    chatBottomSheet.updateAdapter(messages);
+                    chatBottomSheet.updateMessages(messages);
 
             }
 
@@ -534,7 +534,22 @@ public class RoomActivity extends AppCompatActivity {
 
                 //showing new message in chat sheet if visible
                 if(chatBottomSheet!=null && chatBottomSheet.isVisible())
-                    chatBottomSheet.updateAdapter(messages);
+                    chatBottomSheet.updateMessages(messages);
+            }
+
+            @Override
+            public void onMessageSent(String localId) {
+                int pos=0;
+                for(Message message : messages){
+                    if(message.getLocalId()!=null && message.getLocalId().equals(localId)){
+                        message.setSent(true);
+                        break;
+                    }
+                    pos++;
+                }
+                Log.i("chat","pos: "+Integer.toString(pos));
+
+                chatBottomSheet.updateMessageStatus(messages,pos);
             }
         });
     }

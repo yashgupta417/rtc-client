@@ -49,6 +49,7 @@ public class ChatSocket {
         void onOldMessages(ArrayList<Message> oldMessages);
         void onNewMessage(Message message);
         void onUserMessage(Message message);
+        void onMessageSent(String localId);
     }
 
     public void setOnUpdateListener(UpdateListener listener){
@@ -127,7 +128,7 @@ public class ChatSocket {
         listener.onUserMessage(message);
 
         //sending message
-        socket.emit("sendMessage", message.getText(), username, address, new Ack() {
+        socket.emit("sendMessage", message.getText(), username, address,message.getLocalId(), new Ack() {
             @Override
             public void call(Object... args) {
                 JSONObject response = (JSONObject) args[0];
@@ -137,7 +138,8 @@ public class ChatSocket {
                     public void run() {
                         try {
                             if(response.getString("status").equals("sent")){
-                                //Toast.makeText(activity, "Message sent", Toast.LENGTH_SHORT).show();
+                                Log.i("chat","ack received");
+                                listener.onMessageSent(response.getString("localId"));
                             }
                         } catch (JSONException e){ }
                     }
