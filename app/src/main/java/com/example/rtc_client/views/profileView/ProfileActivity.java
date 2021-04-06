@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.rtc_client.BuildConfig;
 import com.example.rtc_client.R;
 import com.example.rtc_client.data.models.User;
 import com.example.rtc_client.utils.GlideApp;
@@ -28,7 +29,7 @@ public class ProfileActivity extends AppCompatActivity {
     TextView logoutTextView;
     ProfileViewModel viewModel;
     User user;
-    TextView usernameTextView, nameTextView;
+    TextView usernameTextView, nameTextView, versionNameTextView;
     CircleImageView profileImage,profileImageBG;
     GifImageView loader;
     RelativeLayout parent;
@@ -51,6 +52,7 @@ public class ProfileActivity extends AppCompatActivity {
         profileImageBG=findViewById(R.id.profile_image_bg);
         loader=findViewById(R.id.loader);
         parent=findViewById(R.id.parent);
+        versionNameTextView=findViewById(R.id.version_name);
 
         //setting up viewModel
         viewModel= ViewModelProviders.of(this).get(ProfileViewModel.class);
@@ -92,6 +94,10 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     public void updateUI() {
+
+        //setting version name
+        String versionName = BuildConfig.VERSION_NAME;
+        versionNameTextView.setText("v "+versionName);
 
         usernameTextView.setText("@" + user.getUsername());
         nameTextView.setText(user.getName());

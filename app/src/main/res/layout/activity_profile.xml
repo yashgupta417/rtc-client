@@ -168,6 +168,7 @@
             />
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/settings_parent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/settings_header"
@@ -194,6 +195,20 @@
 
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/version_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/settings_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/shade6"
+            android:textSize="13sp"
+            tools:text="v 1.2.0"/>
+
+
     </RelativeLayout>
 
 </RelativeLayout>
