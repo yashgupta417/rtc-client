@@ -33,6 +33,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Room name"
+            android:maxLines="1"
+            android:maxLength="20"
+            android:inputType="text"
             android:background="@drawable/create_room_edittext_name"
             android:textColor="@color/white"
             android:textColorHint="@color/shade6"/>

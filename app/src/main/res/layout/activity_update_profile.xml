@@ -87,6 +87,9 @@
         android:backgroundTint="@color/shade5"
         android:textColorHint="@color/shade6"
         android:layout_below="@id/name_text"
+        android:maxLines="1"
+        android:maxLength="25"
+        android:inputType="textPersonName"
         android:textColor="@color/white"
         android:layout_marginHorizontal="15dp"/>
 

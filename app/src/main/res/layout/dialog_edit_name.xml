@@ -44,6 +44,9 @@
             android:paddingHorizontal="15dp"
             android:textColor="@color/white"
             android:hint="room name"
+            android:maxLines="1"
+            android:maxLength="25"
+            android:inputType="textPersonName"
             android:textColorHint="@color/shade6"
             android:layout_marginHorizontal="15dp"
             android:layout_marginTop="20dp"/>
