@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:drawable="@color/black"/>
+
+    <item android:drawable="@drawable/ic_round_whatshot_100" android:gravity="center"
+        android:height="75dp"
+        android:width="75dp"/>
+
+</layer-list>
